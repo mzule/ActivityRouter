@@ -4,6 +4,13 @@ package com.github.mzule.activityrouter.router;
  * Created by CaoDongping on 4/6/16.
  */
 public class ExtraTypes {
+    public static final int UNKNOWN = -1;
+    public static final int INT = 1;
+    public static final int LONG = 2;
+    public static final int BOOL = 3;
+    public static final int SHORT = 4;
+    public static final int FLOAT = 5;
+    public static final int DOUBLE = 6;
     private String[] intExtra;
     private String[] longExtra;
     private String[] boolExtra;
@@ -57,5 +64,39 @@ public class ExtraTypes {
 
     public void setDoubleExtra(String[] doubleExtra) {
         this.doubleExtra = doubleExtra;
+    }
+
+    public int getType(String name) {
+        if (arrayContain(intExtra, name)) {
+            return INT;
+        }
+        if (arrayContain(longExtra, name)) {
+            return LONG;
+        }
+        if (arrayContain(boolExtra, name)) {
+            return BOOL;
+        }
+        if (arrayContain(shortExtra, name)) {
+            return SHORT;
+        }
+        if (arrayContain(floatExtra, name)) {
+            return FLOAT;
+        }
+        if (arrayContain(doubleExtra, name)) {
+            return DOUBLE;
+        }
+        return UNKNOWN;
+    }
+
+    private boolean arrayContain(String[] array, String value) {
+        if (array == null) {
+            return false;
+        }
+        for (String s : array) {
+            if (s.equals(value)) {
+                return true;
+            }
+        }
+        return false;
     }
 }
