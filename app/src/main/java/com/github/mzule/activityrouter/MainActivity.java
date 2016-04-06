@@ -5,7 +5,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.widget.TextView;
 
 import com.github.mzule.activityrouter.annotation.Router;
-import com.github.mzule.activityrouter.router.Routers;
 
 @Router(value = {"main", "root", "home"}, longExtra = {"id", "updateTime"}, boolExtra = "web")
 public class MainActivity extends AppCompatActivity {
@@ -20,7 +19,5 @@ public class MainActivity extends AppCompatActivity {
         textView.append("\nupdateTime:" + getIntent().getLongExtra("updateTime", 0));
         textView.append("\nweb:" + getIntent().getBooleanExtra("web", false));
         setContentView(textView);
-
-        Routers.init(this);
     }
 }

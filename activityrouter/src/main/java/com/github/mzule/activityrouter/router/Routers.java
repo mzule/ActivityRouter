@@ -21,17 +21,15 @@ public class Routers {
     }
 
     public static void init(final Context context) {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    Class<?> clazz = Class.forName("com.github.mzule.activityrouter.router.RouterMapping");
-                    clazz.getMethod("map", Context.class).invoke(null, context);
-                } catch (Throwable e) {
-                    e.printStackTrace();
-                }
-            }
-        }).start();
+        if (routers != null) {
+            return;
+        }
+        try {
+            Class<?> clazz = Class.forName("com.github.mzule.activityrouter.router.RouterMapping");
+            clazz.getMethod("map", Context.class).invoke(null, context);
+        } catch (Throwable e) {
+            e.printStackTrace();
+        }
     }
 
     public static void open(String url) {
@@ -54,7 +52,6 @@ public class Routers {
             if (mapping.match(url)) {
                 Intent intent = new Intent(context, mapping.getActivity());
                 intent.putExtras(mapping.parseExtras(url));
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(intent);
                 break;
             }

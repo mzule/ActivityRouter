@@ -12,6 +12,7 @@ public class RouterActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        Routers.init(this);
         Uri uri = getIntent().getData();
         if (uri != null) {
             Routers.open(uri.toString());
