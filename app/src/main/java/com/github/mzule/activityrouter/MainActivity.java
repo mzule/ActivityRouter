@@ -6,7 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import com.github.mzule.activityrouter.annotation.Router;
 import com.github.mzule.activityrouter.router.Routers;
 
-@Router(value = "main", longExtra = "id", boolExtra = "web")
+@Router(value = "main", longExtra = {"id", "updateTime"}, boolExtra = "web")
 public class MainActivity extends AppCompatActivity {
 
     @Override

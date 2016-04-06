@@ -59,10 +59,35 @@ public class RouterProcessor extends AbstractProcessor {
             if (activity.getKind() != ElementKind.CLASS) {
                 error("Router can only apply on class");
             }
-            // TODO check subclass of Activity
             Router router = activity.getAnnotation(Router.class);
 
             mapMethod.addStatement("extraTypes = new com.github.mzule.activityrouter.router.ExtraTypes()");
+            String extras = join(router.intExtra());
+            if (extras.length() > 0) {
+                mapMethod.addStatement("extraTypes.setIntExtra($S.split(\",\"))", extras);
+            }
+            extras = join(router.longExtra());
+            if (extras.length() > 0) {
+                mapMethod.addStatement("extraTypes.setLongExtra($S.split(\",\"))", extras);
+            }
+            extras = join(router.boolExtra());
+            if (extras.length() > 0) {
+                mapMethod.addStatement("extraTypes.setBoolExtra($S.split(\",\"))", extras);
+            }
+            extras = join(router.shortExtra());
+            if (extras.length() > 0) {
+                mapMethod.addStatement("extraTypes.setShortExtra($S.split(\",\"))", extras);
+            }
+            extras = join(router.floatExtra());
+            if (extras.length() > 0) {
+                mapMethod.addStatement("extraTypes.setFloatExtra($S.split(\",\"))", extras);
+            }
+            extras = join(router.doubleExtra());
+            if (extras.length() > 0) {
+                mapMethod.addStatement("extraTypes.setDoubleExtra($S.split(\",\"))", extras);
+            }
+            mapMethod.addStatement("routers.map($S, $T.class, extraTypes)", router.value()[0], ClassName.get((TypeElement) activity));
+            mapMethod.addStatement("");
         }
 
         TypeSpec routerMapping = TypeSpec.classBuilder("RouterMapping")
@@ -80,9 +105,24 @@ public class RouterProcessor extends AbstractProcessor {
                     .build()
                     .writeTo(filer);
         } catch (Throwable e) {
-            //e.printStackTrace();
+            e.printStackTrace();
         }
         return true;
+    }
+
+    private String join(String[] args) {
+        if (args == null || args.length == 0) {
+            return "";
+        }
+        if (args.length == 1) {
+            return args[0];
+        }
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < args.length - 1; i++) {
+            sb.append(args[i]).append(",");
+        }
+        sb.append(args[args.length - 1]);
+        return sb.toString();
     }
 
     private void error(String error) {
