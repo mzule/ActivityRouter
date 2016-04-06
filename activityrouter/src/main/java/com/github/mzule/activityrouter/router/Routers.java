@@ -20,7 +20,7 @@ public class Routers {
         this.mappings = new HashSet<>();
     }
 
-    public static void init(final Context context) {
+    static void init(final Context context) {
         if (routers != null) {
             return;
         }
@@ -32,7 +32,7 @@ public class Routers {
         }
     }
 
-    public static void open(String url) {
+    static void open(String url) {
         routers.doOpen(url);
     }
 
