@@ -52,7 +52,9 @@ public class RouterProcessor extends AbstractProcessor {
         Set<? extends Element> activities = roundEnv.getElementsAnnotatedWith(Router.class);
 
         MethodSpec.Builder mapMethod = MethodSpec.methodBuilder("map")
-                .addModifiers(Modifier.PUBLIC, Modifier.FINAL)
+                .addParameter(ParameterSpec.builder(ClassName.get("android.content", "Context"), "context").build())
+                .addModifiers(Modifier.PUBLIC, Modifier.FINAL, Modifier.STATIC)
+                .addStatement("com.github.mzule.activityrouter.router.Routers routers = com.github.mzule.activityrouter.router.Routers.create(context)")
                 .addStatement("com.github.mzule.activityrouter.router.ExtraTypes extraTypes");
 
         for (Element activity : activities) {
@@ -94,12 +96,6 @@ public class RouterProcessor extends AbstractProcessor {
 
         TypeSpec routerMapping = TypeSpec.classBuilder("RouterMapping")
                 .addModifiers(Modifier.PUBLIC, Modifier.FINAL)
-                .addField(ClassName.get("com.github.mzule.activityrouter.router", "Routers"), "routers", Modifier.PRIVATE)
-                .addMethod(MethodSpec.constructorBuilder()
-                        .addModifiers(Modifier.PUBLIC)
-                        .addParameter(ParameterSpec.builder(ClassName.get("android.content", "Context"), "context").build())
-                        .addStatement("this.routers = Routers.create(context)")
-                        .build())
                 .addMethod(mapMethod.build())
                 .build();
         try {

@@ -34,8 +34,7 @@ public class Routers {
     public static void init(Context context) {
         try {
             Class<?> clazz = Class.forName("com.github.mzule.activityrouter.RouterMapping");
-            Object o = clazz.getConstructor(Context.class).newInstance(context);
-            clazz.getMethod("map").invoke(o);
+            clazz.getMethod("map", Context.class).invoke(null, context);
         } catch (Throwable e) {
             e.printStackTrace();
         }
