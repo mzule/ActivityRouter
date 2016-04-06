@@ -20,17 +20,6 @@ public class Routers {
         this.mappings = new HashSet<>();
     }
 
-    public static Routers create(Context context) {
-        if (routers == null) {
-            routers = new Routers(context);
-        }
-        return routers;
-    }
-
-    public static Routers getRouters() {
-        return routers;
-    }
-
     public static void init(Context context) {
         try {
             Class<?> clazz = Class.forName("com.github.mzule.activityrouter.RouterMapping");
@@ -40,11 +29,22 @@ public class Routers {
         }
     }
 
-    public void map(String format, Class<? extends Activity> clazz, ExtraTypes extraTypes) {
+    public static void open(String url) {
+        routers.doOpen(url);
+    }
+
+    static Routers create(Context context) {
+        if (routers == null) {
+            routers = new Routers(context);
+        }
+        return routers;
+    }
+
+    void map(String format, Class<? extends Activity> clazz, ExtraTypes extraTypes) {
         mappings.add(new Mapping(format, clazz, extraTypes));
     }
 
-    public void open(String url) {
+    private void doOpen(String url) {
         for (Mapping mapping : mappings) {
             if (mapping.match(url)) {
                 Intent intent = new Intent(context, mapping.getActivity());

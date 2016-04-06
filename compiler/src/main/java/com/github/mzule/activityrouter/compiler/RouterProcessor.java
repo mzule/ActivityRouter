@@ -99,7 +99,7 @@ public class RouterProcessor extends AbstractProcessor {
                 .addMethod(mapMethod.build())
                 .build();
         try {
-            JavaFile.builder("com.github.mzule.activityrouter", routerMapping)
+            JavaFile.builder("com.github.mzule.activityrouter.router", routerMapping)
                     .build()
                     .writeTo(filer);
         } catch (Throwable e) {

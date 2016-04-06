@@ -14,7 +14,7 @@ public class RouterActivity extends Activity {
 
         Uri uri = getIntent().getData();
         if (uri != null) {
-            Routers.getRouters().open(uri.toString());
+            Routers.open(uri.toString());
         }
         finish();
     }
