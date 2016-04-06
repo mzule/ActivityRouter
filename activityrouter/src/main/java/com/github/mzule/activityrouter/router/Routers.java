@@ -20,13 +20,18 @@ public class Routers {
         this.mappings = new HashSet<>();
     }
 
-    public static void init(Context context) {
-        try {
-            Class<?> clazz = Class.forName("com.github.mzule.activityrouter.RouterMapping");
-            clazz.getMethod("map", Context.class).invoke(null, context);
-        } catch (Throwable e) {
-            e.printStackTrace();
-        }
+    public static void init(final Context context) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Class<?> clazz = Class.forName("com.github.mzule.activityrouter.RouterMapping");
+                    clazz.getMethod("map", Context.class).invoke(null, context);
+                } catch (Throwable e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
     }
 
     public static void open(String url) {
