@@ -86,8 +86,10 @@ public class RouterProcessor extends AbstractProcessor {
             if (extras.length() > 0) {
                 mapMethod.addStatement("extraTypes.setDoubleExtra($S.split(\",\"))", extras);
             }
-            mapMethod.addStatement("routers.map($S, $T.class, extraTypes)", router.value()[0], ClassName.get((TypeElement) activity));
-            mapMethod.addStatement("");
+            for (String format : router.value()) {
+                mapMethod.addStatement("routers.map($S, $T.class, extraTypes)", format, ClassName.get((TypeElement) activity));
+            }
+            mapMethod.addCode("\n");
         }
 
         TypeSpec routerMapping = TypeSpec.classBuilder("RouterMapping")
