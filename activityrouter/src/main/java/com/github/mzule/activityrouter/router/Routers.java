@@ -25,7 +25,7 @@ public class Routers {
             @Override
             public void run() {
                 try {
-                    Class<?> clazz = Class.forName("com.github.mzule.activityrouter.RouterMapping");
+                    Class<?> clazz = Class.forName("com.github.mzule.activityrouter.router.RouterMapping");
                     clazz.getMethod("map", Context.class).invoke(null, context);
                 } catch (Throwable e) {
                     e.printStackTrace();
