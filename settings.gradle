@@ -1,1 +1,1 @@
-include ':app', ':compiler', ':annotation', ':router'
+include ':app', ':compiler', ':annotation', ':activityrouter'

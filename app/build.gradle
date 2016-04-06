@@ -1,4 +1,8 @@
 apply plugin: 'com.android.application'
+apply plugin: 'com.neenbedankt.android-apt'
+
+sourceCompatibility = 1.7
+targetCompatibility = 1.7
 
 android {
     compileSdkVersion 23
@@ -23,6 +27,6 @@ dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     testCompile 'junit:junit:4.12'
     compile 'com.android.support:appcompat-v7:23.2.1'
-    compile project(':router')
-    compile project(':compiler')
+    compile project(':activityrouter')
+    apt project(':compiler')
 }
