@@ -41,8 +41,7 @@ public class Routers {
         mappings.add(mapping);
     }
 
-    public static void open(Context context, String url) {
-        Uri uri = Uri.parse(url);
+    public static void open(Context context, Uri uri) {
         Path path = Path.create(uri);
         for (Mapping mapping : mappings) {
             if (mapping.match(path)) {
