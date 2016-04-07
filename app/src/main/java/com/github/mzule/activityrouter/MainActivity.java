@@ -6,7 +6,7 @@ import android.widget.TextView;
 
 import com.github.mzule.activityrouter.annotation.Router;
 
-@Router(value = {"main", "root", "main/home/:name/id/:id"}, longExtra = {"id", "updateTime"}, boolExtra = "web")
+@Router(value = {"http://mzule.com/main", "main", "root", "main/home/:name/id/:id"}, longExtra = {"id", "updateTime"}, boolExtra = "web")
 public class MainActivity extends AppCompatActivity {
 
     @Override

@@ -81,4 +81,9 @@ public class Path {
     public String value() {
         return value;
     }
+
+    public boolean isHttp() {
+        String low = value.toLowerCase();
+        return low.startsWith("http://") || low.startsWith("https://");
+    }
 }

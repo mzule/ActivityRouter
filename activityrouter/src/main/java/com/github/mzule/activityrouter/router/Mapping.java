@@ -25,7 +25,11 @@ public class Mapping {
         this.format = format;
         this.activity = activity;
         this.extraTypes = extraTypes;
-        this.formatPath = Path.create(Uri.parse("helper://".concat(format)));
+        if (format.toLowerCase().startsWith("http://") || format.toLowerCase().startsWith("https://")) {
+            this.formatPath = Path.create(Uri.parse(format));
+        } else {
+            this.formatPath = Path.create(Uri.parse("helper://".concat(format)));
+        }
     }
 
     public Class<? extends Activity> getActivity() {
@@ -59,8 +63,11 @@ public class Mapping {
     }
 
     public boolean match(Path fullLink) {
-        // ignore scheme
-        return Path.match(formatPath.next(), fullLink.next());
+        if (formatPath.isHttp()) {
+            return Path.match(formatPath, fullLink);
+        } else {
+            return Path.match(formatPath.next(), fullLink.next());
+        }
     }
 
     public Bundle parseExtras(Uri uri) {
