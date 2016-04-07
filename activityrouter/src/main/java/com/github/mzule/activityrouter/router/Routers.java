@@ -3,6 +3,7 @@ package com.github.mzule.activityrouter.router;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -30,8 +31,9 @@ public class Routers {
     }
 
     public static void open(Context context, String url) {
+        Uri uri = Uri.parse(url);
         for (Mapping mapping : mappings) {
-            if (mapping.match(url)) {
+            if (mapping.match(uri)) {
                 Intent intent = new Intent(context, mapping.getActivity());
                 intent.putExtras(mapping.parseExtras(url));
                 context.startActivity(intent);

@@ -68,8 +68,7 @@ public class Mapping {
         return format.hashCode();
     }
 
-    public boolean match(String url) {
-        Uri uri = Uri.parse(url);
+    public boolean match(Uri uri) {
         return uri.getHost().equals(host) && uri.getPathSegments().size() == pathArguments.size();
     }
 
