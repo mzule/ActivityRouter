@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.net.Uri;
 import android.os.Bundle;
 
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -13,6 +14,8 @@ public class Mapping {
     private String format;
     private Class<? extends Activity> activity;
     private ExtraTypes extraTypes;
+    private String host;
+    private List<String> pathArguments;
 
     public Mapping(String format, Class<? extends Activity> activity, ExtraTypes extraTypes) {
         if (format == null) {
@@ -24,6 +27,10 @@ public class Mapping {
         this.format = format;
         this.activity = activity;
         this.extraTypes = extraTypes;
+
+        Uri uri = Uri.parse("helper://".concat(format));
+        this.host = uri.getHost();
+        this.pathArguments = uri.getPathSegments();
     }
 
     public String getFormat() {
@@ -57,8 +64,8 @@ public class Mapping {
     }
 
     public boolean match(String url) {
-        //TODO implementation
-        return true;
+        Uri uri = Uri.parse(url);
+        return uri.getHost().equals(host) && uri.getPathSegments().size() == pathArguments.size();
     }
 
     public Bundle parseExtras(String url) {
