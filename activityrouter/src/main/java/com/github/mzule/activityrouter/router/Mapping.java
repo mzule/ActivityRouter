@@ -4,8 +4,6 @@ import android.app.Activity;
 import android.net.Uri;
 import android.os.Bundle;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Set;
 
 /**
@@ -15,8 +13,7 @@ public class Mapping {
     private String format;
     private Class<? extends Activity> activity;
     private ExtraTypes extraTypes;
-    private String host;
-    private List<String> pathArguments;
+    private Path formatPath;
 
     public Mapping(String format, Class<? extends Activity> activity, ExtraTypes extraTypes) {
         if (format == null) {
@@ -28,14 +25,7 @@ public class Mapping {
         this.format = format;
         this.activity = activity;
         this.extraTypes = extraTypes;
-
-        Uri uri = Uri.parse("helper://".concat(format));
-        this.host = uri.getHost();
-        List<String> pathSegments = uri.getPathSegments();
-        pathArguments = new ArrayList<>(pathSegments.size());
-        for (String segment : pathSegments) {
-            pathArguments.add(segment.substring(1));
-        }
+        this.formatPath = Path.create(Uri.parse("helper://".concat(format)));
     }
 
     public Class<? extends Activity> getActivity() {
@@ -54,30 +44,32 @@ public class Mapping {
         }
         if (o instanceof Mapping) {
             Mapping that = (Mapping) o;
-            return that.host.equals(host) && that.pathArguments.size() == pathArguments.size();
+            return that.format.equals(((Mapping) o).format);
         }
         return false;
     }
 
     @Override
     public int hashCode() {
-        int result = 17;
-        result = 31 * result + host.hashCode();
-        result = 31 * result + pathArguments.size();
-        return result;
+        return format.hashCode();
     }
 
-    public boolean match(Uri uri) {
-        return uri.getHost().equals(host) && uri.getPathSegments().size() == pathArguments.size();
+    public boolean match(Path fullLink) {
+        // ignore scheme
+        return Path.match(formatPath.next(), fullLink.next());
     }
 
-    public Bundle parseExtras(String url) {
+    public Bundle parseExtras(Uri uri) {
         Bundle bundle = new Bundle();
-        Uri uri = Uri.parse(url);
-        // path segments
-        List<String> values = uri.getPathSegments();
-        for (int i = 0; i < pathArguments.size(); i++) {
-            put(bundle, pathArguments.get(i), values.get(i));
+        // path segments // ignore scheme
+        Path p = formatPath.next();
+        Path y = Path.create(uri).next();
+        while (p != null) {
+            if (p.isArgument()) {
+                put(bundle, p.argument(), y.value());
+            }
+            p = p.next();
+            y = y.next();
         }
         // parameter
         Set<String> names = uri.getQueryParameterNames();

@@ -43,10 +43,11 @@ public class Routers {
 
     public static void open(Context context, String url) {
         Uri uri = Uri.parse(url);
+        Path path = Path.create(uri);
         for (Mapping mapping : mappings) {
-            if (mapping.match(uri)) {
+            if (mapping.match(path)) {
                 Intent intent = new Intent(context, mapping.getActivity());
-                intent.putExtras(mapping.parseExtras(url));
+                intent.putExtras(mapping.parseExtras(uri));
                 context.startActivity(intent);
                 break;
             }
