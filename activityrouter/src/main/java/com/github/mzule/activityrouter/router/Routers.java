@@ -25,8 +25,8 @@ public class Routers {
         }
     }
 
-    static void map(String format, Class<? extends Activity> clazz, ExtraTypes extraTypes) {
-        mappings.add(new Mapping(format, clazz, extraTypes));
+    static void map(String format, Class<? extends Activity> activity, ExtraTypes extraTypes) {
+        mappings.add(new Mapping(format, activity, extraTypes));
     }
 
     public static void open(Context context, String url) {
