@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -21,13 +22,23 @@ public class Routers {
         try {
             Class<?> clazz = Class.forName("com.github.mzule.activityrouter.router.RouterMapping");
             clazz.getMethod("map").invoke(null);
-        } catch (Throwable e) {
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
             e.printStackTrace();
         }
     }
 
     static void map(String format, Class<? extends Activity> activity, ExtraTypes extraTypes) {
-        mappings.add(new Mapping(format, activity, extraTypes));
+        Mapping mapping = new Mapping(format, activity, extraTypes);
+        if (mappings.contains(mapping)) {
+            throw new IllegalStateException("Duplicate router register");
+        }
+        mappings.add(mapping);
     }
 
     public static void open(Context context, String url) {

@@ -38,10 +38,6 @@ public class Mapping {
         }
     }
 
-    public String getFormat() {
-        return format;
-    }
-
     public Class<? extends Activity> getActivity() {
         return activity;
     }
@@ -58,14 +54,17 @@ public class Mapping {
         }
         if (o instanceof Mapping) {
             Mapping that = (Mapping) o;
-            return that.format.equals(format);
+            return that.host.equals(host) && that.pathArguments.size() == pathArguments.size();
         }
         return false;
     }
 
     @Override
     public int hashCode() {
-        return format.hashCode();
+        int result = 17;
+        result = 31 * result + host.hashCode();
+        result = 31 * result + pathArguments.size();
+        return result;
     }
 
     public boolean match(Uri uri) {
