@@ -11,43 +11,25 @@ import java.util.Set;
  * Created by CaoDongping on 4/6/16.
  */
 public class Routers {
-    private static Routers routers;
-    private Set<Mapping> mappings;
-    private Context context;
+    private static Set<Mapping> mappings = new HashSet<>();
 
-    private Routers(Context context) {
-        this.context = context;
-        this.mappings = new HashSet<>();
-    }
-
-    static void init(final Context context) {
-        if (routers != null) {
+    static void init() {
+        if (!mappings.isEmpty()) {
             return;
         }
         try {
             Class<?> clazz = Class.forName("com.github.mzule.activityrouter.router.RouterMapping");
-            clazz.getMethod("map", Context.class).invoke(null, context);
+            clazz.getMethod("map").invoke(null);
         } catch (Throwable e) {
             e.printStackTrace();
         }
     }
 
-    static void open(String url) {
-        routers.doOpen(url);
-    }
-
-    static Routers create(Context context) {
-        if (routers == null) {
-            routers = new Routers(context);
-        }
-        return routers;
-    }
-
-    void map(String format, Class<? extends Activity> clazz, ExtraTypes extraTypes) {
+    static void map(String format, Class<? extends Activity> clazz, ExtraTypes extraTypes) {
         mappings.add(new Mapping(format, clazz, extraTypes));
     }
 
-    private void doOpen(String url) {
+    public static void open(Context context, String url) {
         for (Mapping mapping : mappings) {
             if (mapping.match(url)) {
                 Intent intent = new Intent(context, mapping.getActivity());

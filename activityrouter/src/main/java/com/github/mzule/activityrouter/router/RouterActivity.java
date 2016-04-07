@@ -12,10 +12,10 @@ public class RouterActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        Routers.init(this);
+        Routers.init();
         Uri uri = getIntent().getData();
         if (uri != null) {
-            Routers.open(uri.toString());
+            Routers.open(this, uri.toString());
         }
         finish();
     }

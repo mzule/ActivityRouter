@@ -5,7 +5,6 @@ import com.google.auto.service.AutoService;
 import com.squareup.javapoet.ClassName;
 import com.squareup.javapoet.JavaFile;
 import com.squareup.javapoet.MethodSpec;
-import com.squareup.javapoet.ParameterSpec;
 import com.squareup.javapoet.TypeSpec;
 
 import java.util.Collections;
@@ -52,9 +51,7 @@ public class RouterProcessor extends AbstractProcessor {
         Set<? extends Element> activities = roundEnv.getElementsAnnotatedWith(Router.class);
 
         MethodSpec.Builder mapMethod = MethodSpec.methodBuilder("map")
-                .addParameter(ParameterSpec.builder(ClassName.get("android.content", "Context"), "context").build())
                 .addModifiers(Modifier.PUBLIC, Modifier.FINAL, Modifier.STATIC)
-                .addStatement("com.github.mzule.activityrouter.router.Routers routers = com.github.mzule.activityrouter.router.Routers.create(context)")
                 .addStatement("com.github.mzule.activityrouter.router.ExtraTypes extraTypes");
 
         for (Element activity : activities) {
@@ -89,7 +86,7 @@ public class RouterProcessor extends AbstractProcessor {
                 mapMethod.addStatement("extraTypes.setDoubleExtra($S.split(\",\"))", extras);
             }
             for (String format : router.value()) {
-                mapMethod.addStatement("routers.map($S, $T.class, extraTypes)", format, ClassName.get((TypeElement) activity));
+                mapMethod.addStatement("com.github.mzule.activityrouter.router.Routers.map($S, $T.class, extraTypes)", format, ClassName.get((TypeElement) activity));
             }
             mapMethod.addCode("\n");
         }
