@@ -90,6 +90,7 @@ public class RouterProcessor extends AbstractProcessor {
             }
             mapMethod.addCode("\n");
         }
+        mapMethod.addStatement("com.github.mzule.activityrouter.router.Routers.sort()");
 
         TypeSpec routerMapping = TypeSpec.classBuilder("RouterMapping")
                 .addModifiers(Modifier.PUBLIC, Modifier.FINAL)

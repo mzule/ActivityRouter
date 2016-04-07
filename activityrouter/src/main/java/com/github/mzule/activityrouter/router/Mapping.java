@@ -32,6 +32,10 @@ public class Mapping {
         return activity;
     }
 
+    public String getFormat() {
+        return format;
+    }
+
     @Override
     public String toString() {
         return String.format("%s => %s", format, activity);
