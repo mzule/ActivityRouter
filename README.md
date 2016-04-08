@@ -111,7 +111,7 @@ public class UserStatisticsActivity extends Activity {
 
 支持优先适配，意味着，`mzule://user/statistics`会直接适配到`@Router("user/statistics")`，不会适配前一个`@Router("user/:userId")`
 
-### Callback
+### 支持Callback
 
 ```
 public class App extends Application implements RouterCallbackProvider {
@@ -136,6 +136,30 @@ public class App extends Application implements RouterCallbackProvider {
 }
 ```
 在`Application`中实现`RouterCallbackProvider`接口，通过`provideRouterCallback()`方法提供`RouterCallback`，具体API如上。
+
+### 支持Http(s)协议
+
+```
+@Router({"http://mzule.com/main", "main"})
+```
+
+AndroidManifest.xml
+
+```
+<activity
+    android:name="com.github.mzule.activityrouter.router.RouterActivity"
+    android:theme="@android:style/Theme.NoDisplay">
+    ...
+    <intent-filter>
+    	<action android:name="android.intent.action.VIEW" />
+    	<category android:name="android.intent.category.DEFAULT" />
+    	<category android:name="android.intent.category.BROWSABLE" />
+    	<data android:scheme="http" android:host="mzule.com" />
+	</intent-filter>
+</activity>
+```
+
+这样，`http://mzule.com/main`和`mzule://main`都可以映射到同一个Activity，值得注意的是，在`@Router`中声明`http`协议地址时，需要写全称。
 
 ## 混淆配置
 
