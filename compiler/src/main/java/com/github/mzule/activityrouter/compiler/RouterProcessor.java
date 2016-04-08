@@ -85,6 +85,14 @@ public class RouterProcessor extends AbstractProcessor {
             if (extras.length() > 0) {
                 mapMethod.addStatement("extraTypes.setDoubleExtra($S.split(\",\"))", extras);
             }
+            extras = join(router.byteExtra());
+            if (extras.length() > 0) {
+                mapMethod.addStatement("extraTypes.setByteExtra($S.split(\",\"))", extras);
+            }
+            extras = join(router.charExtra());
+            if (extras.length() > 0) {
+                mapMethod.addStatement("extraTypes.setCharExtra($S.split(\",\"))", extras);
+            }
             for (String format : router.value()) {
                 mapMethod.addStatement("com.github.mzule.activityrouter.router.Routers.map($S, $T.class, extraTypes)", format, ClassName.get((TypeElement) activity));
             }
