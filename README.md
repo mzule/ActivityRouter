@@ -24,8 +24,8 @@ buildscript {
 apply plugin: 'android-apt'
 
 dependencies {
-	compile 'com.github.mzule.activityrouter:activityrouter:1.0.1'
-	apt 'com.github.mzule.activityrouter:compiler:1.0.1'
+	compile 'com.github.mzule.activityrouter:activityrouter:1.1.0'
+	apt 'com.github.mzule.activityrouter:compiler:1.1.0'
 }
 
 ```
@@ -96,7 +96,7 @@ public class MainActivity extends Activity {
 ```
 @Router(value = "main/:color", intExtra = "color")
 ```
-这样指定了参数`color`的类型为`int`，在`MainActivity#onCreate`获取color可以通过`getIntent().getIntExtra("color", 0)`来获取。支持的参数类型有`int`,`long`,`short`,`float`,`double`,`boolean`，默认不指定则为`String`类型。
+这样指定了参数`color`的类型为`int`，在`MainActivity#onCreate`获取color可以通过`getIntent().getIntExtra("color", 0)`来获取。支持的参数类型有`int`,`long`,`short`,`byte`,`char`,`float`,`double`,`boolean`，默认不指定则为`String`类型。
 
 ### 支持优先适配
 
@@ -166,6 +166,13 @@ AndroidManifest.xml
 ```
 
 这样，`http://mzule.com/main`和`mzule://main`都可以映射到同一个Activity，值得注意的是，在`@Router`中声明`http`协议地址时，需要写全称。
+
+### 支持参数transfer
+
+```
+@Router(value = "item", longExtra = "id", transfer = "id=>itemId")
+```
+这里通过`transfer = "id=>itemId"`的方式，设定了url中名称为`id`的参数会被改名成`itemId`放到参数`Bundle`中，类型为`long`. 值得注意的是，这里，通过`longExtra = "id"`或者`longExtra = "itemId"`都可以设置参数类型为`long`.
 
 ## 混淆配置
 
