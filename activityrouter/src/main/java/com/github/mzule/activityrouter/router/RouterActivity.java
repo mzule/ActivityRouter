@@ -3,7 +3,6 @@ package com.github.mzule.activityrouter.router;
 import android.app.Activity;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 
 /**
  * Created by CaoDongping on 4/6/16.
@@ -32,7 +31,6 @@ public class RouterActivity extends Activity {
         finish();
     }
 
-    @Nullable
     private RouterCallback getRouterCallback() {
         if (getApplication() instanceof RouterCallbackProvider) {
             return ((RouterCallbackProvider) getApplication()).provideRouterCallback();
