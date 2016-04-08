@@ -1,5 +1,7 @@
 package com.github.mzule.activityrouter.router;
 
+import java.util.Map;
+
 /**
  * Created by CaoDongping on 4/6/16.
  */
@@ -21,6 +23,7 @@ public class ExtraTypes {
     private String[] doubleExtra;
     private String[] byteExtra;
     private String[] charExtra;
+    private Map<String, String> transfer;
 
     public String[] getIntExtra() {
         return intExtra;
@@ -86,6 +89,14 @@ public class ExtraTypes {
         this.charExtra = charExtra;
     }
 
+    public Map<String, String> getTransfer() {
+        return transfer;
+    }
+
+    public void setTransfer(Map<String, String> transfer) {
+        this.transfer = transfer;
+    }
+
     public int getType(String name) {
         if (arrayContain(intExtra, name)) {
             return INT;
@@ -124,5 +135,13 @@ public class ExtraTypes {
             }
         }
         return false;
+    }
+
+    public String transfer(String name) {
+        if (transfer == null) {
+            return name;
+        }
+        String result = transfer.get(name);
+        return result != null ? result : name;
     }
 }

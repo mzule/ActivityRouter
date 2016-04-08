@@ -52,7 +52,9 @@ public class RouterProcessor extends AbstractProcessor {
 
         MethodSpec.Builder mapMethod = MethodSpec.methodBuilder("map")
                 .addModifiers(Modifier.PUBLIC, Modifier.FINAL, Modifier.STATIC)
-                .addStatement("com.github.mzule.activityrouter.router.ExtraTypes extraTypes");
+                .addStatement("java.util.Map<String,String> transfer = null")
+                .addStatement("com.github.mzule.activityrouter.router.ExtraTypes extraTypes")
+                .addCode("\n");
 
         for (Element activity : activities) {
             if (activity.getKind() != ElementKind.CLASS) {
@@ -60,7 +62,23 @@ public class RouterProcessor extends AbstractProcessor {
             }
             Router router = activity.getAnnotation(Router.class);
 
+            String[] transfer = router.transfer();
+            if (transfer != null && transfer.length > 0 && !"".equals(transfer[0])) {
+                mapMethod.addStatement("transfer = new java.util.HashMap<String, String>()");
+                for (String s : transfer) {
+                    String[] components = s.split("=>");
+                    if (components.length != 2) {
+                        error("transfer `" + s + "` not match a=>b format");
+                        break;
+                    }
+                    mapMethod.addStatement("transfer.put($S, $S)", components[0], components[1]);
+                }
+            } else {
+                mapMethod.addStatement("transfer = null");
+            }
+
             mapMethod.addStatement("extraTypes = new com.github.mzule.activityrouter.router.ExtraTypes()");
+            mapMethod.addStatement("extraTypes.setTransfer(transfer)");
             String extras = join(router.intExtra());
             if (extras.length() > 0) {
                 mapMethod.addStatement("extraTypes.setIntExtra($S.split(\",\"))", extras);
