@@ -20,6 +20,7 @@
         <activity android:name=".HomeActivity" />
         <activity android:name=".UserActivity" />
         <activity android:name=".UserCollectionActivity" />
+        <activity android:name=".NotFoundActivity" />
         <activity android:name=".router.RouterActivity">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />

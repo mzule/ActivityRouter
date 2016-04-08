@@ -54,16 +54,20 @@ public class Routers {
         });
     }
 
-    public static void open(Context context, Uri uri) {
+    public static boolean open(Context context, Uri uri) {
         initIfNeed();
         Path path = Path.create(uri);
         for (Mapping mapping : mappings) {
             if (mapping.match(path)) {
                 Intent intent = new Intent(context, mapping.getActivity());
                 intent.putExtras(mapping.parseExtras(uri));
+                if (!(context instanceof Activity)) {
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                }
                 context.startActivity(intent);
-                break;
+                return true;
             }
         }
+        return false;
     }
 }
