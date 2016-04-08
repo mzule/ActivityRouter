@@ -4,6 +4,10 @@
 
 支持给`Activity`定义URL，这样可以通过URL跳转到`Activity`，支持在浏览器以及app中跳入。
 
+![image](https://raw.githubusercontent.com/mzule/ActivityRouter/master/gif/router.gif)
+
+![image](https://raw.githubusercontent.com/mzule/ActivityRouter/master/gif/http.gif)
+
 ## 集成
 
 在`build.gradle`配置
