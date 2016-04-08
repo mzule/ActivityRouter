@@ -28,7 +28,7 @@ dependencies {
 
 ```
 <activity
-    android:name="com.github.mzule.routeractivity.router.RouterActivity"
+    android:name="com.github.mzule.activityrouter.router.RouterActivity"
     android:theme="@android:style/Theme.NoDisplay">
     <intent-filter>
         <action android:name="android.intent.action.VIEW" />
