@@ -21,7 +21,9 @@
         <activity android:name=".UserActivity" />
         <activity android:name=".UserCollectionActivity" />
         <activity android:name=".NotFoundActivity" />
-        <activity android:name=".router.RouterActivity">
+        <activity
+            android:name=".router.RouterActivity"
+            android:theme="@android:style/Theme.NoDisplay">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
