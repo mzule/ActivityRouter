@@ -1,4 +1,4 @@
-#ActivityRouter
+# ActivityRouter
 
 ## 功能
 
@@ -18,8 +18,8 @@ buildscript {
 apply plugin: 'android-apt'
 
 dependencies {
-	compile 'com.github.mzule.activityrouter:activityrouter:0.1.1'
-	apt 'com.github.mzule.activityrouter:compiler:0.1.1'
+	compile 'com.github.mzule.activityrouter:activityrouter:1.0.0'
+	apt 'com.github.mzule.activityrouter:compiler:1.0.0'
 }
 
 ```
@@ -48,7 +48,7 @@ public class MainActivity extends Activity {
 ```
 这样就可以通过`mzule://main`来打开`MainActivity`了。
 
-##进阶
+## 进阶
 
 ### 支持配置多个地址
 
@@ -66,7 +66,7 @@ public class MainActivity extends Activity {
 ```
 上面的配置，可以通过`mzule://main?color=0xff878798&name=you+are+best`来传递参数，在`MainActivity#onCreate`中通过`getIntent().getStringExtra("name")`的方式来获取参数，所有的参数默认为`String`类型，但是可以通过配置指定参数类型，后面会介绍。
 
-###支持在path中定义参数
+### 支持在path中定义参数
 
 ```
 @Router("main/:color")
@@ -74,7 +74,7 @@ public class MainActivity extends Activity {
 
 通过`:color`的方式定义参数，参数名为`color`，访问`mzule://main/0xff878798`，可以在`MainActivity#onCreate`通过`getIntent().getStringExtra("color")`获取到color的值`0xff878798`
 
-###支持多级path参数
+### 支持多级path参数
 
 ```
 @Router("user/:userId/:topicId/:commentId")
@@ -85,14 +85,14 @@ public class MainActivity extends Activity {
 上面两种方式都是被支持的，分别定义了三个参数，`userId`,`topicId`,`commentId`
 
 
-###支持指定参数类型
+### 支持指定参数类型
 
 ```
 @Router(value = "main/:color", intExtra = "color")
 ```
 这样指定了参数`color`的类型为`int`，在`MainActivity#onCreate`获取color可以通过`getIntent().getIntExtra("color", 0)`来获取。支持的参数类型有`int`,`long`,`short`,`float`,`double`,`boolean`，默认不指定则为`String`类型。
 
-###支持优先适配
+### 支持优先适配
 
 ```
 @Router("user/:userId")
@@ -110,3 +110,35 @@ public class UserStatisticsActivity extends Activity {
 不支持优先适配的情况下，`mzule://user/statistics`可能会适配到`@Router("user/:userId")`，并且`userId=statistics`
 
 支持优先适配，意味着，`mzule://user/statistics`会直接适配到`@Router("user/statistics")`，不会适配前一个`@Router("user/:userId")`
+
+### Callback
+
+```
+public class App extends Application implements RouterCallbackProvider {
+    @Override
+    public RouterCallback provideRouterCallback() {
+        return new SimpleRouterCallback() {
+            @Override
+            public void beforeOpen(Context context, Uri uri) {
+                context.startActivity(new Intent(context, LaunchActivity.class));
+            }
+
+            @Override
+            public void afterOpen(Context context, Uri uri) {
+            }
+
+            @Override
+            public void notFound(Context context, Uri uri) {
+                context.startActivity(new Intent(context, NotFoundActivity.class));
+            }
+        };
+    }
+}
+```
+在`Application`中实现`RouterCallbackProvider`接口，通过`provideRouterCallback()`方法提供`RouterCallback`，具体API如上。
+
+## 混淆配置
+
+```
+-keep class com.github.mzule.activityrouter.router.** { *; }
+```

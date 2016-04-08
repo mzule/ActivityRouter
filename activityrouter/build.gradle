@@ -17,7 +17,7 @@ ext {
     siteUrl = 'https://github.com/mzule/ActivityRouter/'
     gitUrl = 'https://github.com/mzule/ActivityRouter.git'
 
-    libraryVersion = '0.1.1'
+    libraryVersion = '1.0.0'
 
     developerId = 'mzule'
     developerName = 'Cao Dongping'
@@ -50,6 +50,8 @@ dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     testCompile 'junit:junit:4.12'
     compile 'com.android.support:appcompat-v7:23.2.1'
-    compile 'com.github.mzule.activityrouter:annotation:0.1.1'
+    compile 'com.github.mzule.activityrouter:annotation:1.0.0'
 }
 
+apply from: 'https://raw.githubusercontent.com/nuuneoi/JCenter/master/installv1.gradle'
+apply from: 'https://raw.githubusercontent.com/nuuneoi/JCenter/master/bintrayv1.gradle'
