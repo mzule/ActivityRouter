@@ -27,6 +27,6 @@ dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     testCompile 'junit:junit:4.12'
     compile 'com.android.support:appcompat-v7:23.2.1'
-    compile project(':activityrouter')
-    apt project(':compiler')
+    compile 'com.github.mzule.activityrouter:activityrouter:0.1.1'
+    apt 'com.github.mzule.activityrouter:compiler:0.1.1'
 }

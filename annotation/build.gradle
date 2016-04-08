@@ -3,6 +3,31 @@ apply plugin: 'java'
 sourceCompatibility = 1.7
 targetCompatibility = 1.7
 
+ext {
+    bintrayRepo = 'maven'
+    bintrayName = 'activity-router-annotation'
+
+    publishedGroupId = 'com.github.mzule.activityrouter'
+    libraryName = 'Annotation'
+    artifact = 'annotation'
+
+    libraryDescription = 'Router activities'
+
+    siteUrl = 'https://github.com/mzule/ActivityRouter/'
+    gitUrl = 'https://github.com/mzule/ActivityRouter.git'
+
+    libraryVersion = '0.1.1'
+
+    developerId = 'mzule'
+    developerName = 'Cao Dongping'
+    developerEmail = 'mzule4j@gmail.com'
+
+    licenseName = 'The Apache Software License, Version 2.0'
+    licenseUrl = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+    allLicenses = ["Apache-2.0"]
+}
+
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
 }
+
