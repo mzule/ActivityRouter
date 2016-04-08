@@ -113,6 +113,12 @@ public class Mapping {
                 case ExtraTypes.DOUBLE:
                     bundle.putDouble(name, Double.parseDouble(value));
                     break;
+                case ExtraTypes.BYTE:
+                    bundle.putByte(name, Byte.parseByte(value));
+                    break;
+                case ExtraTypes.CHAR:
+                    bundle.putChar(name, value.charAt(0));
+                    break;
                 default:
                     bundle.putString(name, value);
                     break;

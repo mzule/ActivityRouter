@@ -11,12 +11,16 @@ public class ExtraTypes {
     public static final int SHORT = 4;
     public static final int FLOAT = 5;
     public static final int DOUBLE = 6;
+    public static final int BYTE = 7;
+    public static final int CHAR = 8;
     private String[] intExtra;
     private String[] longExtra;
     private String[] boolExtra;
     private String[] shortExtra;
     private String[] floatExtra;
     private String[] doubleExtra;
+    private String[] byteExtra;
+    private String[] charExtra;
 
     public String[] getIntExtra() {
         return intExtra;
@@ -66,6 +70,22 @@ public class ExtraTypes {
         this.doubleExtra = doubleExtra;
     }
 
+    public String[] getByteExtra() {
+        return byteExtra;
+    }
+
+    public void setByteExtra(String[] byteExtra) {
+        this.byteExtra = byteExtra;
+    }
+
+    public String[] getCharExtra() {
+        return charExtra;
+    }
+
+    public void setCharExtra(String[] charExtra) {
+        this.charExtra = charExtra;
+    }
+
     public int getType(String name) {
         if (arrayContain(intExtra, name)) {
             return INT;
@@ -84,6 +104,12 @@ public class ExtraTypes {
         }
         if (arrayContain(doubleExtra, name)) {
             return DOUBLE;
+        }
+        if (arrayContain(byteExtra, name)) {
+            return BYTE;
+        }
+        if (arrayContain(charExtra, name)) {
+            return CHAR;
         }
         return UNKNOWN;
     }
