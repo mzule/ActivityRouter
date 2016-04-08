@@ -16,7 +16,7 @@ ext {
     siteUrl = 'https://github.com/mzule/ActivityRouter/'
     gitUrl = 'https://github.com/mzule/ActivityRouter.git'
 
-    libraryVersion = '1.0.1'
+    libraryVersion = '1.1.0'
 
     developerId = 'mzule'
     developerName = 'Cao Dongping'

@@ -92,9 +92,12 @@ public class Mapping {
     }
 
     private void put(Bundle bundle, String name, String value) {
-        name = extraTypes.transfer(name);
         try {
             int type = extraTypes.getType(name);
+            name = extraTypes.transfer(name);
+            if (type == ExtraTypes.STRING) {
+                type = extraTypes.getType(name);
+            }
             switch (type) {
                 case ExtraTypes.INT:
                     bundle.putInt(name, Integer.parseInt(value));

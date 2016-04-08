@@ -6,7 +6,7 @@ import java.util.Map;
  * Created by CaoDongping on 4/6/16.
  */
 public class ExtraTypes {
-    public static final int UNKNOWN = -1;
+    public static final int STRING = -1;
     public static final int INT = 1;
     public static final int LONG = 2;
     public static final int BOOL = 3;
@@ -122,7 +122,7 @@ public class ExtraTypes {
         if (arrayContain(charExtra, name)) {
             return CHAR;
         }
-        return UNKNOWN;
+        return STRING;
     }
 
     private boolean arrayContain(String[] array, String value) {
