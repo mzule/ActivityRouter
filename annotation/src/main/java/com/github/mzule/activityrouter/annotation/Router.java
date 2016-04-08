@@ -21,4 +21,10 @@ public @interface Router {
     String[] floatExtra() default "";
 
     String[] doubleExtra() default "";
+
+    String[] byteExtra() default "";
+
+    String[] charExtra() default "";
+
+    String[] transfer() default "";
 }
