@@ -4,6 +4,30 @@ apply plugin: 'com.neenbedankt.android-apt'
 sourceCompatibility = 1.7
 targetCompatibility = 1.7
 
+ext {
+    bintrayRepo = 'maven'
+    bintrayName = 'activity-router'
+
+    publishedGroupId = 'com.github.mzule.activityrouter'
+    libraryName = 'ActivityRouter'
+    artifact = 'activityrouter'
+
+    libraryDescription = 'Router activities'
+
+    siteUrl = 'https://github.com/mzule/ActivityRouter/'
+    gitUrl = 'https://github.com/mzule/ActivityRouter.git'
+
+    libraryVersion = '0.1.0'
+
+    developerId = 'mzule'
+    developerName = 'Cao Dongping'
+    developerEmail = 'mzule4j@gmail.com'
+
+    licenseName = 'The Apache Software License, Version 2.0'
+    licenseUrl = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+    allLicenses = ["Apache-2.0"]
+}
+
 android {
     compileSdkVersion 23
     buildToolsVersion "23.0.2"
@@ -28,3 +52,4 @@ dependencies {
     compile 'com.android.support:appcompat-v7:23.2.1'
     compile project(':annotation')
 }
+
