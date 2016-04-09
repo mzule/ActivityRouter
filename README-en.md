@@ -132,14 +132,14 @@ AndroidManifest.xml
 </activity>
 ```
 
-With above config, you can visite `MainActivity` with `http://mzule.com/main` or normally `mzule://main`. As you can see, `http(s)` router config must fill in full path url.
+With above config, you can visite `MainActivity` with `http://mzule.com/main` or normally `mzule://main`. As you can see, `http(s)` router config must be fill in  with full path url.
 
 ### 6. Paramters name mapping
 
 ```
 @Router(value = "item", longExtra = "id", transfer = "id=>itemId")
 ```
-In normal case, parameter `A` will put int bundle-extra with name `A`. If you want to change this. You can set value for `transfer` with `A=>B` means from `A` to `B`.
+In normal case, parameter `A` will put into bundle-extra with name `A`. If you want to change its name. You can set value for `transfer` with `A=>B` means from `A` to `B`.
 
 ### 7. In-app usage
 
