@@ -1,12 +1,13 @@
 package com.github.mzule.activityrouter;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import com.github.mzule.activityrouter.router.Routers;
 
 /**
  * Created by CaoDongping on 4/7/16.
@@ -23,9 +24,14 @@ public class LaunchActivity extends Activity {
                 view.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        /*
+                        // 第三方app通过url打开本app的activity时，通过ACTION_VIEW的方式
                         Intent intent = new Intent(Intent.ACTION_VIEW);
                         intent.setData(Uri.parse(((TextView) view).getText().toString()));
                         startActivity(intent);
+                        */
+                        // app内打开页面可以使用Routers.open(Context, Uri),此方法效率更高，且不会触发RouterCallback
+                        Routers.open(LaunchActivity.this, Uri.parse(((TextView) view).getText().toString()));
                     }
                 });
             }

@@ -174,6 +174,15 @@ AndroidManifest.xml
 ```
 这里通过`transfer = "id=>itemId"`的方式，设定了url中名称为`id`的参数会被改名成`itemId`放到参数`Bundle`中，类型为`long`. 值得注意的是，这里，通过`longExtra = "id"`或者`longExtra = "itemId"`都可以设置参数类型为`long`.
 
+### 支持应用内调用
+
+```
+Routers.open(context, Uri.parse("mzule://main/0xff878798"))
+```
+
+通过`Routers.open(Context, Uri)`可以直接在应用内打开对应的Activity，不去要经过RouterActivity跳转，效率更高。
+
+
 ## 混淆配置
 
 ```
