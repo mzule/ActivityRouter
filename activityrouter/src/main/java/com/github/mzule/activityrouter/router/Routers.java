@@ -54,6 +54,10 @@ public class Routers {
         });
     }
 
+    public static boolean open(Context context, String url) {
+        return open(context, Uri.parse(url));
+    }
+
     public static boolean open(Context context, Uri uri) {
         initIfNeed();
         Path path = Path.create(uri);

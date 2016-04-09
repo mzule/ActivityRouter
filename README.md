@@ -24,8 +24,8 @@ buildscript {
 apply plugin: 'android-apt'
 
 dependencies {
-	compile 'com.github.mzule.activityrouter:activityrouter:1.1.0'
-	apt 'com.github.mzule.activityrouter:compiler:1.1.0'
+	compile 'com.github.mzule.activityrouter:activityrouter:1.1.1'
+	apt 'com.github.mzule.activityrouter:compiler:1.1.1'
 }
 
 ```
@@ -177,11 +177,11 @@ AndroidManifest.xml
 ### 支持应用内调用
 
 ```
+Routers.open(context, "mzule://main/0xff878798")
 Routers.open(context, Uri.parse("mzule://main/0xff878798"))
 ```
 
-通过`Routers.open(Context, Uri)`可以直接在应用内打开对应的Activity，不去要经过RouterActivity跳转，效率更高。
-
+通过`Routers.open(Context, String)`或者`Routers.open(Context, Uri)`可以直接在应用内打开对应的Activity，不去要经过RouterActivity跳转，效率更高。
 
 ## 混淆配置
 

@@ -17,7 +17,7 @@ ext {
     siteUrl = 'https://github.com/mzule/ActivityRouter/'
     gitUrl = 'https://github.com/mzule/ActivityRouter.git'
 
-    libraryVersion = '1.1.0'
+    libraryVersion = '1.1.1'
 
     developerId = 'mzule'
     developerName = 'Cao Dongping'
@@ -33,7 +33,7 @@ android {
     buildToolsVersion "23.0.2"
 
     defaultConfig {
-        minSdkVersion 15
+        minSdkVersion 11
         targetSdkVersion 23
         versionCode 1
         versionName "1.0"
