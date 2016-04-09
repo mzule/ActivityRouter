@@ -1,5 +1,7 @@
 # ActivityRouter
 
+### [English README.md](https://github.com/mzule/ActivityRouter/blob/master/README-en.md)
+
 ## 功能
 
 支持给`Activity`定义URL，这样可以通过URL跳转到`Activity`，支持在浏览器以及app中跳入。
