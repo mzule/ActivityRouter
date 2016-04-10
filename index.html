@@ -1,0 +1,251 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Activityrouter by mzule</title>
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/github-dark.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script src="javascripts/main.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
+  </head>
+  <body>
+
+      <header>
+        <h1>Activityrouter</h1>
+        <p>Router activities.</p>
+      </header>
+
+      <div id="banner">
+        <span id="logo"></span>
+
+        <a href="https://github.com/mzule/ActivityRouter" class="button fork"><strong>View On GitHub</strong></a>
+        <div class="downloads">
+          <span>Downloads:</span>
+          <ul>
+            <li><a href="https://github.com/mzule/ActivityRouter/zipball/master" class="button">ZIP</a></li>
+            <li><a href="https://github.com/mzule/ActivityRouter/tarball/master" class="button">TAR</a></li>
+          </ul>
+        </div>
+      </div><!-- end banner -->
+
+    <div class="wrapper">
+      <nav>
+        <ul></ul>
+      </nav>
+      <section>
+        <h1>
+<a id="activityrouter" class="anchor" href="#activityrouter" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>ActivityRouter</h1>
+
+<h3>
+<a id="english-readmemd-here" class="anchor" href="#english-readmemd-here" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a><a href="https://github.com/mzule/ActivityRouter/blob/master/README-en.md">English README.md here</a>
+</h3>
+
+<h2>
+<a id="功能" class="anchor" href="#%E5%8A%9F%E8%83%BD" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>功能</h2>
+
+<p>支持给<code>Activity</code>定义URL，这样可以通过URL跳转到<code>Activity</code>，支持在浏览器以及app中跳入。</p>
+
+<p><img src="https://raw.githubusercontent.com/mzule/ActivityRouter/master/gif/router.gif" alt="image"></p>
+
+<p><img src="https://raw.githubusercontent.com/mzule/ActivityRouter/master/gif/http.gif" alt="image"></p>
+
+<h2>
+<a id="集成" class="anchor" href="#%E9%9B%86%E6%88%90" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>集成</h2>
+
+<p>根目录build.gradle</p>
+
+<pre><code>buildscript {
+  dependencies {
+    classpath 'com.neenbedankt.gradle.plugins:android-apt:1.7'
+  }
+}
+</code></pre>
+
+<p>项目app/build.gradle</p>
+
+<pre><code>apply plugin: 'android-apt'
+
+dependencies {
+    compile 'com.github.mzule.activityrouter:activityrouter:1.1.1'
+    apt 'com.github.mzule.activityrouter:compiler:1.1.1'
+}
+
+</code></pre>
+
+<p>在<code>AndroidManifest.xml</code>配置</p>
+
+<pre><code>&lt;activity
+    android:name="com.github.mzule.activityrouter.router.RouterActivity"
+    android:theme="@android:style/Theme.NoDisplay"&gt;
+    &lt;intent-filter&gt;
+        &lt;action android:name="android.intent.action.VIEW" /&gt;
+        &lt;category android:name="android.intent.category.DEFAULT" /&gt;
+        &lt;category android:name="android.intent.category.BROWSABLE" /&gt;
+        &lt;data android:scheme="mzule" /&gt;&lt;!--改成自己的scheme--&gt;
+    &lt;/intent-filter&gt;
+&lt;/activity&gt;
+</code></pre>
+
+<p>在需要配置的<code>Activity</code>上添加注解</p>
+
+<pre><code>@Router("main")
+public class MainActivity extends Activity {
+    ...
+}
+</code></pre>
+
+<p>这样就可以通过<code>mzule://main</code>来打开<code>MainActivity</code>了。</p>
+
+<h2>
+<a id="进阶" class="anchor" href="#%E8%BF%9B%E9%98%B6" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>进阶</h2>
+
+<h3>
+<a id="支持配置多个地址" class="anchor" href="#%E6%94%AF%E6%8C%81%E9%85%8D%E7%BD%AE%E5%A4%9A%E4%B8%AA%E5%9C%B0%E5%9D%80" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>支持配置多个地址</h3>
+
+<pre><code>@Router({"main", "root"})
+</code></pre>
+
+<p><code>mzule://main</code>和<code>mzule://root</code>都可以访问到同一个<code>Activity</code></p>
+
+<h3>
+<a id="支持获取url中传递的参数" class="anchor" href="#%E6%94%AF%E6%8C%81%E8%8E%B7%E5%8F%96url%E4%B8%AD%E4%BC%A0%E9%80%92%E7%9A%84%E5%8F%82%E6%95%B0" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>支持获取url中<code>?</code>传递的参数</h3>
+
+<pre><code>@Router("main")
+</code></pre>
+
+<p>上面的配置，可以通过<code>mzule://main?color=0xff878798&amp;name=you+are+best</code>来传递参数，在<code>MainActivity#onCreate</code>中通过<code>getIntent().getStringExtra("name")</code>的方式来获取参数，所有的参数默认为<code>String</code>类型，但是可以通过配置指定参数类型，后面会介绍。</p>
+
+<h3>
+<a id="支持在path中定义参数" class="anchor" href="#%E6%94%AF%E6%8C%81%E5%9C%A8path%E4%B8%AD%E5%AE%9A%E4%B9%89%E5%8F%82%E6%95%B0" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>支持在path中定义参数</h3>
+
+<pre><code>@Router("main/:color")
+</code></pre>
+
+<p>通过<code>:color</code>的方式定义参数，参数名为<code>color</code>，访问<code>mzule://main/0xff878798</code>，可以在<code>MainActivity#onCreate</code>通过<code>getIntent().getStringExtra("color")</code>获取到color的值<code>0xff878798</code></p>
+
+<h3>
+<a id="支持多级path参数" class="anchor" href="#%E6%94%AF%E6%8C%81%E5%A4%9A%E7%BA%A7path%E5%8F%82%E6%95%B0" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>支持多级path参数</h3>
+
+<pre><code>@Router("user/:userId/:topicId/:commentId")
+
+@Router("user/:userId/topic/:topicId/comment/:commentId")
+</code></pre>
+
+<p>上面两种方式都是被支持的，分别定义了三个参数，<code>userId</code>,<code>topicId</code>,<code>commentId</code></p>
+
+<h3>
+<a id="支持指定参数类型" class="anchor" href="#%E6%94%AF%E6%8C%81%E6%8C%87%E5%AE%9A%E5%8F%82%E6%95%B0%E7%B1%BB%E5%9E%8B" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>支持指定参数类型</h3>
+
+<pre><code>@Router(value = "main/:color", intExtra = "color")
+</code></pre>
+
+<p>这样指定了参数<code>color</code>的类型为<code>int</code>，在<code>MainActivity#onCreate</code>获取color可以通过<code>getIntent().getIntExtra("color", 0)</code>来获取。支持的参数类型有<code>int</code>,<code>long</code>,<code>short</code>,<code>byte</code>,<code>char</code>,<code>float</code>,<code>double</code>,<code>boolean</code>，默认不指定则为<code>String</code>类型。</p>
+
+<h3>
+<a id="支持优先适配" class="anchor" href="#%E6%94%AF%E6%8C%81%E4%BC%98%E5%85%88%E9%80%82%E9%85%8D" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>支持优先适配</h3>
+
+<pre><code>@Router("user/:userId")
+public class UserActivity extends Activity {
+    ...
+}
+
+@Router("user/statistics")
+public class UserStatisticsActivity extends Activity {
+    ...
+}
+</code></pre>
+
+<p>假设有上面两个配置，</p>
+
+<p>不支持优先适配的情况下，<code>mzule://user/statistics</code>可能会适配到<code>@Router("user/:userId")</code>，并且<code>userId=statistics</code></p>
+
+<p>支持优先适配，意味着，<code>mzule://user/statistics</code>会直接适配到<code>@Router("user/statistics")</code>，不会适配前一个<code>@Router("user/:userId")</code></p>
+
+<h3>
+<a id="支持callback" class="anchor" href="#%E6%94%AF%E6%8C%81callback" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>支持Callback</h3>
+
+<pre><code>public class App extends Application implements RouterCallbackProvider {
+    @Override
+    public RouterCallback provideRouterCallback() {
+        return new SimpleRouterCallback() {
+            @Override
+            public void beforeOpen(Context context, Uri uri) {
+                context.startActivity(new Intent(context, LaunchActivity.class));
+            }
+
+            @Override
+            public void afterOpen(Context context, Uri uri) {
+            }
+
+            @Override
+            public void notFound(Context context, Uri uri) {
+                context.startActivity(new Intent(context, NotFoundActivity.class));
+            }
+        };
+    }
+}
+</code></pre>
+
+<p>在<code>Application</code>中实现<code>RouterCallbackProvider</code>接口，通过<code>provideRouterCallback()</code>方法提供<code>RouterCallback</code>，具体API如上。</p>
+
+<h3>
+<a id="支持https协议" class="anchor" href="#%E6%94%AF%E6%8C%81https%E5%8D%8F%E8%AE%AE" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>支持Http(s)协议</h3>
+
+<pre><code>@Router({"http://mzule.com/main", "main"})
+</code></pre>
+
+<p>AndroidManifest.xml</p>
+
+<pre><code>&lt;activity
+    android:name="com.github.mzule.activityrouter.router.RouterActivity"
+    android:theme="@android:style/Theme.NoDisplay"&gt;
+    ...
+    &lt;intent-filter&gt;
+        &lt;action android:name="android.intent.action.VIEW" /&gt;
+        &lt;category android:name="android.intent.category.DEFAULT" /&gt;
+        &lt;category android:name="android.intent.category.BROWSABLE" /&gt;
+        &lt;data android:scheme="http" android:host="mzule.com" /&gt;
+    &lt;/intent-filter&gt;
+&lt;/activity&gt;
+</code></pre>
+
+<p>这样，<code>http://mzule.com/main</code>和<code>mzule://main</code>都可以映射到同一个Activity，值得注意的是，在<code>@Router</code>中声明<code>http</code>协议地址时，需要写全称。</p>
+
+<h3>
+<a id="支持参数transfer" class="anchor" href="#%E6%94%AF%E6%8C%81%E5%8F%82%E6%95%B0transfer" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>支持参数transfer</h3>
+
+<pre><code>@Router(value = "item", longExtra = "id", transfer = "id=&gt;itemId")
+</code></pre>
+
+<p>这里通过<code>transfer = "id=&gt;itemId"</code>的方式，设定了url中名称为<code>id</code>的参数会被改名成<code>itemId</code>放到参数<code>Bundle</code>中，类型为<code>long</code>. 值得注意的是，这里，通过<code>longExtra = "id"</code>或者<code>longExtra = "itemId"</code>都可以设置参数类型为<code>long</code>.</p>
+
+<h3>
+<a id="支持应用内调用" class="anchor" href="#%E6%94%AF%E6%8C%81%E5%BA%94%E7%94%A8%E5%86%85%E8%B0%83%E7%94%A8" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>支持应用内调用</h3>
+
+<pre><code>Routers.open(context, "mzule://main/0xff878798")
+Routers.open(context, Uri.parse("mzule://main/0xff878798"))
+</code></pre>
+
+<p>通过<code>Routers.open(Context, String)</code>或者<code>Routers.open(Context, Uri)</code>可以直接在应用内打开对应的Activity，不去要经过RouterActivity跳转，效率更高。</p>
+
+<h2>
+<a id="混淆配置" class="anchor" href="#%E6%B7%B7%E6%B7%86%E9%85%8D%E7%BD%AE" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>混淆配置</h2>
+
+<pre><code>-keep class com.github.mzule.activityrouter.router.** { *; }
+</code></pre>
+      </section>
+      <footer>
+        <p>Project maintained by <a href="https://github.com/mzule">mzule</a></p>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://twitter.com/michigangraham">mattgraham</a></small></p>
+      </footer>
+    </div>
+    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
+    
+  </body>
+</html>
