@@ -10,7 +10,7 @@ Open activities via url like gifs below.
 
 Root project build.gradle
 
-```
+``` groovy
 buildscript {
   dependencies {
     classpath 'com.neenbedankt.gradle.plugins:android-apt:1.7'
@@ -20,7 +20,7 @@ buildscript {
 
 app project build.gradle
 
-```
+``` groovy
 apply plugin: 'android-apt'
 
 dependencies {
@@ -31,7 +31,7 @@ dependencies {
 
 AndroidManifest.xml
 
-```
+``` xml
 <activity
     android:name="com.github.mzule.activityrouter.router.RouterActivity"
     android:theme="@android:style/Theme.NoDisplay">
@@ -46,7 +46,7 @@ AndroidManifest.xml
 
 Annotate activities with `@Router`.
 
-```
+``` java
 @Router("main")
 public class MainActivity extends Activity {
 	...
@@ -59,7 +59,7 @@ Now, you can open `MainActivity` with `mzule://main`.
 
 ### 1. Map multiple urls to a activity
 
-```
+``` java
 @Router({"main", "root"})
 ```
 
@@ -68,7 +68,7 @@ Now, you can open `MainActivity` with `mzule://main`.
 
 ### 2. Pass parameters like web url
 
-```
+``` java
 @Router("main")
 @Router("main/:color")
 @Router("user/:userId/:topicId/:commentId")
@@ -79,14 +79,14 @@ Paramters after ? and path paramters are both supported here. like, `mzule://mai
 
 ### 3. Set parameters type
 
-```
+``` java
 @Router(value = "main/:color", intExtra = "color")
 ```
 Above configured that `color` paramter is `int` type. All the parameters which is not `String` should be declared in coresponding type, such as `int`, `long`, `short`, `byte`, `char`, `float`, `double`, `boolean`. You can later get paramter with `getIntent().getIntExtra("name")` or other getXxExtra.
 
 ### 4. Router callbacks
 
-```
+``` java
 public class App extends Application implements RouterCallbackProvider {
     @Override
     public RouterCallback provideRouterCallback() {
@@ -112,13 +112,13 @@ Callback can handle `beforeOpen`, `afterOpen`, and `notFound(404)` event. You sh
 
 ### 5. Http and https
 
-```
+``` java
 @Router({"http://mzule.com/main", "main"})
 ```
 
 AndroidManifest.xml
 
-```
+``` xml
 <activity
     android:name="com.github.mzule.activityrouter.router.RouterActivity"
     android:theme="@android:style/Theme.NoDisplay">
@@ -136,14 +136,14 @@ With above config, you can visite `MainActivity` with `http://mzule.com/main` or
 
 ### 6. Paramters name mapping
 
-```
+``` java
 @Router(value = "item", longExtra = "id", transfer = "id=>itemId")
 ```
 In normal case, parameter `A` will put into bundle-extra with name `A`. If you want to change its name. You can set value for `transfer` with `A=>B` means from `A` to `B`.
 
 ### 7. In-app usage
 
-```
+``` java
 Routers.open(context, "mzule://main/0xff878798")
 Routers.open(context, Uri.parse("mzule://main/0xff878798"))
 ```
@@ -151,6 +151,6 @@ Open activities in app self.
 
 ## Proguard
 
-```
+``` java
 -keep class com.github.mzule.activityrouter.router.** { *; }
 ```
