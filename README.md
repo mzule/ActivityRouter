@@ -171,7 +171,7 @@ AndroidManifest.xml
 
 ### 支持参数transfer
 
-```
+``` java
 @Router(value = "item", longExtra = "id", transfer = "id=>itemId")
 ```
 这里通过`transfer = "id=>itemId"`的方式，设定了url中名称为`id`的参数会被改名成`itemId`放到参数`Bundle`中，类型为`long`. 值得注意的是，这里，通过`longExtra = "id"`或者`longExtra = "itemId"`都可以设置参数类型为`long`.
