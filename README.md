@@ -13,7 +13,7 @@
 ## 集成
 根目录build.gradle
 
-```
+``` groovy
 buildscript {
   dependencies {
     classpath 'com.neenbedankt.gradle.plugins:android-apt:1.7'
@@ -22,7 +22,7 @@ buildscript {
 ```
 
 项目app/build.gradle
-```
+``` groovy
 apply plugin: 'android-apt'
 
 dependencies {
@@ -34,7 +34,7 @@ dependencies {
 
 在`AndroidManifest.xml`配置
 
-```
+``` xml
 <activity
     android:name="com.github.mzule.activityrouter.router.RouterActivity"
     android:theme="@android:style/Theme.NoDisplay">
@@ -48,7 +48,7 @@ dependencies {
 ```
 在需要配置的`Activity`上添加注解
 
-```
+``` java
 @Router("main")
 public class MainActivity extends Activity {
 	...
@@ -60,7 +60,7 @@ public class MainActivity extends Activity {
 
 ### 支持配置多个地址
 
-```
+``` java
 @Router({"main", "root"})
 ```
 
@@ -69,14 +69,14 @@ public class MainActivity extends Activity {
 
 ### 支持获取url中`?`传递的参数
 
-```
+``` java
 @Router("main")
 ```
 上面的配置，可以通过`mzule://main?color=0xff878798&name=you+are+best`来传递参数，在`MainActivity#onCreate`中通过`getIntent().getStringExtra("name")`的方式来获取参数，所有的参数默认为`String`类型，但是可以通过配置指定参数类型，后面会介绍。
 
 ### 支持在path中定义参数
 
-```
+``` java
 @Router("main/:color")
 ```
 
@@ -84,7 +84,7 @@ public class MainActivity extends Activity {
 
 ### 支持多级path参数
 
-```
+``` java
 @Router("user/:userId/:topicId/:commentId")
 
 @Router("user/:userId/topic/:topicId/comment/:commentId")
@@ -95,14 +95,14 @@ public class MainActivity extends Activity {
 
 ### 支持指定参数类型
 
-```
+``` java
 @Router(value = "main/:color", intExtra = "color")
 ```
 这样指定了参数`color`的类型为`int`，在`MainActivity#onCreate`获取color可以通过`getIntent().getIntExtra("color", 0)`来获取。支持的参数类型有`int`,`long`,`short`,`byte`,`char`,`float`,`double`,`boolean`，默认不指定则为`String`类型。
 
 ### 支持优先适配
 
-```
+``` java
 @Router("user/:userId")
 public class UserActivity extends Activity {
 	...
@@ -121,7 +121,7 @@ public class UserStatisticsActivity extends Activity {
 
 ### 支持Callback
 
-```
+``` java
 public class App extends Application implements RouterCallbackProvider {
     @Override
     public RouterCallback provideRouterCallback() {
@@ -147,13 +147,13 @@ public class App extends Application implements RouterCallbackProvider {
 
 ### 支持Http(s)协议
 
-```
+``` java
 @Router({"http://mzule.com/main", "main"})
 ```
 
 AndroidManifest.xml
 
-```
+``` xml
 <activity
     android:name="com.github.mzule.activityrouter.router.RouterActivity"
     android:theme="@android:style/Theme.NoDisplay">
@@ -178,7 +178,7 @@ AndroidManifest.xml
 
 ### 支持应用内调用
 
-```
+``` java
 Routers.open(context, "mzule://main/0xff878798")
 Routers.open(context, Uri.parse("mzule://main/0xff878798"))
 ```
@@ -187,6 +187,6 @@ Routers.open(context, Uri.parse("mzule://main/0xff878798"))
 
 ## 混淆配置
 
-```
+``` groovy
 -keep class com.github.mzule.activityrouter.router.** { *; }
 ```
