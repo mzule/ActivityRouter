@@ -46,11 +46,9 @@ public class Path {
         String[] components = s.split("/");
         Path curPath = scheme;
         for(int i = 0; i < components.length; i++) {
-            if (i < components.length) {
-                Path temp = new Path(components[i]);
-                curPath.next = temp;
-                curPath = temp;
-            }
+            Path temp = new Path(components[i]);
+            curPath.next = temp;
+            curPath = temp;
         }
     }
 
