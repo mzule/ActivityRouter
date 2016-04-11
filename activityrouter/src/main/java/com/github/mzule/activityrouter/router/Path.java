@@ -44,11 +44,13 @@ public class Path {
 
     private static void parse(Path scheme, String s) {
         String[] components = s.split("/");
-        String path = components[0];
-        Path linkComponent = new Path(path);
-        scheme.next = linkComponent;
-        if (components.length > 1) {
-            parse(linkComponent, s.substring(components[0].length() + 1));
+        Path curPath = scheme;
+        for(int i = 0; i < components.length; i++) {
+            if (i < components.length) {
+                Path temp = new Path(components[i]);
+                curPath.next = temp;
+                curPath = temp;
+            }
         }
     }
 
