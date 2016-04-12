@@ -154,3 +154,15 @@ Open activities in app self.
 ``` java
 -keep class com.github.mzule.activityrouter.router.** { *; }
 ```
+
+## License
+
+Apache License  2.0
+
+## Contact me
+
+Feel free to contact me if you have any trouble on this project.
+
+1. Create a new issue
+1. Send mail to me, "mzule".concat("4j").concat("@").concat("gmail.com")
+

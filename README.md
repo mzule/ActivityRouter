@@ -190,3 +190,16 @@ Routers.open(context, Uri.parse("mzule://main/0xff878798"))
 ``` groovy
 -keep class com.github.mzule.activityrouter.router.** { *; }
 ```
+
+## 许可
+
+Apache License  2.0
+
+## 联系我
+
+任何相关问题都可以通过以下方式联系我。
+
+1. 提 issue
+1. 新浪微博 http://weibo.com/mzule
+1. 个人博客 https://mzule.github.io/
+1. 邮件 "mzule".concat("4j").concat("@").concat("gmail.com")
