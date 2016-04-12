@@ -45,8 +45,8 @@ public class Path {
     private static void parse(Path scheme, String s) {
         String[] components = s.split("/");
         Path curPath = scheme;
-        for(int i = 0; i < components.length; i++) {
-            Path temp = new Path(components[i]);
+        for(String component: components) {
+            Path temp = new Path(component);
             curPath.next = temp;
             curPath = temp;
         }
