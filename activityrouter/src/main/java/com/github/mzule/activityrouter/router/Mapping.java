@@ -10,9 +10,9 @@ import java.util.Set;
  * Created by CaoDongping on 4/6/16.
  */
 public class Mapping {
-    private String format;
-    private Class<? extends Activity> activity;
-    private ExtraTypes extraTypes;
+    private final String format;
+    private final Class<? extends Activity> activity;
+    private final ExtraTypes extraTypes;
     private Path formatPath;
 
     public Mapping(String format, Class<? extends Activity> activity, ExtraTypes extraTypes) {

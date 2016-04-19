@@ -132,7 +132,7 @@ public class RouterProcessor extends AbstractProcessor {
         return true;
     }
 
-    private String join(String[] args) {
+    private static String join(String[] args) {
         if (args == null || args.length == 0) {
             return "";
         }
