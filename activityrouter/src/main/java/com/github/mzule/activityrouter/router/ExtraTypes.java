@@ -125,7 +125,7 @@ public class ExtraTypes {
         return STRING;
     }
 
-    private boolean arrayContain(String[] array, String value) {
+    private static boolean arrayContain(String[] array, String value) {
         if (array == null) {
             return false;
         }

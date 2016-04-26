@@ -6,7 +6,7 @@ import android.net.Uri;
  * Created by CaoDongping on 4/7/16.
  */
 public class Path {
-    private String value;
+    private final String value;
     private Path next;
 
     private Path(String value) {
