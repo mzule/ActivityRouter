@@ -83,7 +83,7 @@ public class Mapping {
             y = y.next();
         }
         // parameter
-        Set<String> names = uri.getQueryParameterNames();
+        Set<String> names = UriCompact.getQueryParameterNames(uri);
         for (String name : names) {
             String value = uri.getQueryParameter(name);
             put(bundle, name, value);
