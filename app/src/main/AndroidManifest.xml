@@ -21,6 +21,7 @@
         <activity android:name=".UserActivity" />
         <activity android:name=".UserCollectionActivity" />
         <activity android:name=".NotFoundActivity" />
+        <activity android:name=".ErrorStackActivity" />
         <activity
             android:name=".router.RouterActivity"
             android:theme="@android:style/Theme.NoDisplay">

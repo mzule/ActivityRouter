@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.github.mzule.activityrouter.router.RouterCallbackProvider;
 import com.github.mzule.activityrouter.router.Routers;
 
 /**
@@ -30,8 +31,8 @@ public class LaunchActivity extends Activity {
                         intent.setData(Uri.parse(((TextView) view).getText().toString()));
                         startActivity(intent);
                         */
-                        // app内打开页面可以使用Routers.open(Context, Uri),此方法效率更高，且不会触发RouterCallback
-                        Routers.open(LaunchActivity.this, Uri.parse(((TextView) view).getText().toString()));
+                        // app内打开页面可以使用Routers.open(Context, Uri)
+                        Routers.open(LaunchActivity.this, Uri.parse(((TextView) view).getText().toString()), ((RouterCallbackProvider) getApplication()).provideRouterCallback());
                     }
                 });
             }
