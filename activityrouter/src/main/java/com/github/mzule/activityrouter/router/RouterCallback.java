@@ -12,4 +12,6 @@ public interface RouterCallback {
     void beforeOpen(Context context, Uri uri);
 
     void afterOpen(Context context, Uri uri);
+
+    void error(Context context, Uri uri, Throwable e);
 }

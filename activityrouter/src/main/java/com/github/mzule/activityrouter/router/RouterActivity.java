@@ -16,17 +16,7 @@ public class RouterActivity extends Activity {
 
         Uri uri = getIntent().getData();
         if (uri != null) {
-            if (callback == null) {
-                Routers.open(this, uri);
-            } else {
-                callback.beforeOpen(this, uri);
-                boolean success = Routers.open(this, uri);
-                if (success) {
-                    callback.afterOpen(this, uri);
-                } else {
-                    callback.notFound(this, uri);
-                }
-            }
+            Routers.open(this, uri, callback);
         }
         finish();
     }

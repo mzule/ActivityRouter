@@ -92,43 +92,39 @@ public class Mapping {
     }
 
     private void put(Bundle bundle, String name, String value) {
-        try {
-            int type = extraTypes.getType(name);
-            name = extraTypes.transfer(name);
-            if (type == ExtraTypes.STRING) {
-                type = extraTypes.getType(name);
-            }
-            switch (type) {
-                case ExtraTypes.INT:
-                    bundle.putInt(name, Integer.parseInt(value));
-                    break;
-                case ExtraTypes.LONG:
-                    bundle.putLong(name, Long.parseLong(value));
-                    break;
-                case ExtraTypes.BOOL:
-                    bundle.putBoolean(name, Boolean.parseBoolean(value));
-                    break;
-                case ExtraTypes.SHORT:
-                    bundle.putShort(name, Short.parseShort(value));
-                    break;
-                case ExtraTypes.FLOAT:
-                    bundle.putFloat(name, Float.parseFloat(value));
-                    break;
-                case ExtraTypes.DOUBLE:
-                    bundle.putDouble(name, Double.parseDouble(value));
-                    break;
-                case ExtraTypes.BYTE:
-                    bundle.putByte(name, Byte.parseByte(value));
-                    break;
-                case ExtraTypes.CHAR:
-                    bundle.putChar(name, value.charAt(0));
-                    break;
-                default:
-                    bundle.putString(name, value);
-                    break;
-            }
-        } catch (NumberFormatException e) {
-            e.printStackTrace();
+        int type = extraTypes.getType(name);
+        name = extraTypes.transfer(name);
+        if (type == ExtraTypes.STRING) {
+            type = extraTypes.getType(name);
+        }
+        switch (type) {
+            case ExtraTypes.INT:
+                bundle.putInt(name, Integer.parseInt(value));
+                break;
+            case ExtraTypes.LONG:
+                bundle.putLong(name, Long.parseLong(value));
+                break;
+            case ExtraTypes.BOOL:
+                bundle.putBoolean(name, Boolean.parseBoolean(value));
+                break;
+            case ExtraTypes.SHORT:
+                bundle.putShort(name, Short.parseShort(value));
+                break;
+            case ExtraTypes.FLOAT:
+                bundle.putFloat(name, Float.parseFloat(value));
+                break;
+            case ExtraTypes.DOUBLE:
+                bundle.putDouble(name, Double.parseDouble(value));
+                break;
+            case ExtraTypes.BYTE:
+                bundle.putByte(name, Byte.parseByte(value));
+                break;
+            case ExtraTypes.CHAR:
+                bundle.putChar(name, value.charAt(0));
+                break;
+            default:
+                bundle.putString(name, value);
+                break;
         }
     }
 }

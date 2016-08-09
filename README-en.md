@@ -24,8 +24,8 @@ app project build.gradle
 apply plugin: 'android-apt'
 
 dependencies {
-	compile 'com.github.mzule.activityrouter:activityrouter:1.1.2'
-	apt 'com.github.mzule.activityrouter:compiler:1.1.1'
+	compile 'com.github.mzule.activityrouter:activityrouter:1.1.4'
+	apt 'com.github.mzule.activityrouter:compiler:1.1.3'
 }
 ```
 
@@ -80,7 +80,7 @@ Paramters after ? and path paramters are both supported here. like, `mzule://mai
 ### 3. Set parameters type
 
 ``` java
-@Router(value = "main/:color", intExtra = "color")
+@Router(value = "main/:color", intParams = "color")
 ```
 Above configured that `color` paramter is `int` type. All the parameters which is not `String` should be declared in coresponding type, such as `int`, `long`, `short`, `byte`, `char`, `float`, `double`, `boolean`. You can later get paramter with `getIntent().getIntExtra("name")` or other getXxExtra.
 
@@ -103,6 +103,11 @@ public class App extends Application implements RouterCallbackProvider {
             @Override
             public void notFound(Context context, Uri uri) {
                 context.startActivity(new Intent(context, NotFoundActivity.class));
+            }
+            
+            @Override
+            public void error(Context context, Uri uri, Throwable e) {
+                context.startActivity(ErrorStackActivity.makeIntent(context, uri, e));
             }
         };
     }
@@ -137,7 +142,7 @@ With above config, you can visite `MainActivity` with `http://mzule.com/main` or
 ### 6. Paramters name mapping
 
 ``` java
-@Router(value = "item", longExtra = "id", transfer = "id=>itemId")
+@Router(value = "item", longParams = "id", transfer = "id=>itemId")
 ```
 In normal case, parameter `A` will put into bundle-extra with name `A`. If you want to change its name. You can set value for `transfer` with `A=>B` means from `A` to `B`.
 

@@ -30,6 +30,11 @@ public class App extends Application implements RouterCallbackProvider {
             public void notFound(Context context, Uri uri) {
                 context.startActivity(new Intent(context, NotFoundActivity.class));
             }
+
+            @Override
+            public void error(Context context, Uri uri, Throwable e) {
+                context.startActivity(ErrorStackActivity.makeIntent(context, uri, e));
+            }
         };
     }
 }

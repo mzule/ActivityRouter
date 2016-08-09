@@ -43,7 +43,37 @@ public class Routers {
         return open(context, Uri.parse(url));
     }
 
+    public static boolean open(Context context, String url, RouterCallback callback) {
+        return open(context, Uri.parse(url), callback);
+    }
+
     public static boolean open(Context context, Uri uri) {
+        return open(context, uri, null);
+    }
+
+    public static boolean open(Context context, Uri uri, RouterCallback callback) {
+        boolean success = false;
+        try {
+            if (callback != null) {
+                callback.beforeOpen(context, uri);
+            }
+            success = doOpen(context, uri);
+            if (callback != null) {
+                if (success) {
+                    callback.afterOpen(context, uri);
+                } else {
+                    callback.notFound(context, uri);
+                }
+            }
+        } catch (Throwable e) {
+            if (callback != null) {
+                callback.error(context, uri, e);
+            }
+        }
+        return success;
+    }
+
+    private static boolean doOpen(Context context, Uri uri) {
         initIfNeed();
         Path path = Path.create(uri);
         String host = uri.getHost();

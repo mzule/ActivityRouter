@@ -18,4 +18,8 @@ public class SimpleRouterCallback implements RouterCallback {
     @Override
     public void afterOpen(Context context, Uri uri) {
     }
+
+    @Override
+    public void error(Context context, Uri uri, Throwable e) {
+    }
 }
