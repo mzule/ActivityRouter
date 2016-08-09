@@ -12,7 +12,7 @@ import java.util.Set;
 public class UriCompact {
 
     /**
-     * Uri#getQueryParameterNames() 不支持 11 以下版本，这个方法提供兼容.
+     * Call Uri#getQueryParameterNames() below api 11.
      *
      * @param uri Uri
      * @return Set

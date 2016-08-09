@@ -1,7 +1,8 @@
 package com.github.mzule.activityrouter.compiler;
 
-import com.github.mzule.activityrouter.annotation.Router;
 import com.google.auto.service.AutoService;
+
+import com.github.mzule.activityrouter.annotation.Router;
 import com.squareup.javapoet.ClassName;
 import com.squareup.javapoet.JavaFile;
 import com.squareup.javapoet.MethodSpec;
@@ -27,6 +28,7 @@ import javax.tools.Diagnostic;
 public class RouterProcessor extends AbstractProcessor {
 
     private Messager messager;
+
     private Filer filer;
 
     @Override
@@ -79,43 +81,23 @@ public class RouterProcessor extends AbstractProcessor {
 
             mapMethod.addStatement("extraTypes = new com.github.mzule.activityrouter.router.ExtraTypes()");
             mapMethod.addStatement("extraTypes.setTransfer(transfer)");
-            String extras = join(router.intExtra());
-            if (extras.length() > 0) {
-                mapMethod.addStatement("extraTypes.setIntExtra($S.split(\",\"))", extras);
-            }
-            extras = join(router.longExtra());
-            if (extras.length() > 0) {
-                mapMethod.addStatement("extraTypes.setLongExtra($S.split(\",\"))", extras);
-            }
-            extras = join(router.boolExtra());
-            if (extras.length() > 0) {
-                mapMethod.addStatement("extraTypes.setBoolExtra($S.split(\",\"))", extras);
-            }
-            extras = join(router.shortExtra());
-            if (extras.length() > 0) {
-                mapMethod.addStatement("extraTypes.setShortExtra($S.split(\",\"))", extras);
-            }
-            extras = join(router.floatExtra());
-            if (extras.length() > 0) {
-                mapMethod.addStatement("extraTypes.setFloatExtra($S.split(\",\"))", extras);
-            }
-            extras = join(router.doubleExtra());
-            if (extras.length() > 0) {
-                mapMethod.addStatement("extraTypes.setDoubleExtra($S.split(\",\"))", extras);
-            }
-            extras = join(router.byteExtra());
-            if (extras.length() > 0) {
-                mapMethod.addStatement("extraTypes.setByteExtra($S.split(\",\"))", extras);
-            }
-            extras = join(router.charExtra());
-            if (extras.length() > 0) {
-                mapMethod.addStatement("extraTypes.setCharExtra($S.split(\",\"))", extras);
-            }
+
+            addStatement(mapMethod, int.class, router.intParams());
+            addStatement(mapMethod, long.class, router.longParams());
+            addStatement(mapMethod, boolean.class, router.booleanParams());
+            addStatement(mapMethod, short.class, router.shortParams());
+            addStatement(mapMethod, float.class, router.floatParams());
+            addStatement(mapMethod, double.class, router.doubleParams());
+            addStatement(mapMethod, byte.class, router.byteParams());
+            addStatement(mapMethod, char.class, router.charParams());
+            
             for (String format : router.value()) {
-                mapMethod.addStatement("com.github.mzule.activityrouter.router.Routers.map($S, $T.class, extraTypes)", format, ClassName.get((TypeElement) activity));
+                mapMethod.addStatement("com.github.mzule.activityrouter.router.Routers.map($S, $T.class, extraTypes)", format,
+                        ClassName.get((TypeElement) activity));
             }
             mapMethod.addCode("\n");
         }
+        
         mapMethod.addStatement("com.github.mzule.activityrouter.router.Routers.sort()");
 
         TypeSpec routerMapping = TypeSpec.classBuilder("RouterMapping")
@@ -132,7 +114,17 @@ public class RouterProcessor extends AbstractProcessor {
         return true;
     }
 
-    private static String join(String[] args) {
+    private void addStatement(MethodSpec.Builder mapMethod, Class typeClz, String[] args) {
+        String extras = join(args);
+        if (extras.length() > 0) {
+            String typeName = typeClz.getSimpleName();
+            String s = typeName.substring(0, 1).toUpperCase() + typeName.replaceFirst("\\w", "");
+
+            mapMethod.addStatement("extraTypes.set" + s + "Extra($S.split(\",\"))", extras);
+        }
+    }
+
+    private String join(String[] args) {
         if (args == null || args.length == 0) {
             return "";
         }

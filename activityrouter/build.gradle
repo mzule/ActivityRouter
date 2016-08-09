@@ -47,7 +47,8 @@ android {
 }
 
 dependencies {
-    compile 'com.github.mzule.activityrouter:annotation:1.1.0'
+    compile project(':annotation')
+//    compile 'com.github.mzule.activityrouter:annotation:1.1.0'
 }
 
 apply from: 'https://raw.githubusercontent.com/nuuneoi/JCenter/master/installv1.gradle'
