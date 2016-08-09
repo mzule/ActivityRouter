@@ -26,7 +26,7 @@ buildscript {
 apply plugin: 'android-apt'
 
 dependencies {
-	compile 'com.github.mzule.activityrouter:activityrouter:1.1.3'
+	compile 'com.github.mzule.activityrouter:activityrouter:1.1.4'
 	apt 'com.github.mzule.activityrouter:compiler:1.1.3'
 }
 
@@ -138,6 +138,11 @@ public class App extends Application implements RouterCallbackProvider {
             @Override
             public void notFound(Context context, Uri uri) {
                 context.startActivity(new Intent(context, NotFoundActivity.class));
+            }
+            
+            @Override
+            public void error(Context context, Uri uri, Throwable e) {
+                context.startActivity(ErrorStackActivity.makeIntent(context, uri, e));
             }
         };
     }
