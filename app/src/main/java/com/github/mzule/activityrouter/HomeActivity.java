@@ -5,6 +5,7 @@ import com.github.mzule.activityrouter.annotation.Router;
 /**
  * Created by CaoDongping on 4/7/16.
  */
-@Router(value = "home/:homeName")
+@Router(value = "home/:homeName", stringParams = "o")
 public class HomeActivity extends DumpExtrasActivity {
+
 }

@@ -17,7 +17,7 @@ public class ExtraTypes {
     public static final int CHAR = 8;
     private String[] intExtra;
     private String[] longExtra;
-    private String[] boolExtra;
+    private String[] booleanExtra;
     private String[] shortExtra;
     private String[] floatExtra;
     private String[] doubleExtra;
@@ -41,12 +41,12 @@ public class ExtraTypes {
         this.longExtra = longExtra;
     }
 
-    public String[] getBoolExtra() {
-        return boolExtra;
+    public String[] getBooleanExtra() {
+        return booleanExtra;
     }
 
-    public void setBoolExtra(String[] boolExtra) {
-        this.boolExtra = boolExtra;
+    public void setBooleanExtra(String[] booleanExtra) {
+        this.booleanExtra = booleanExtra;
     }
 
     public String[] getShortExtra() {
@@ -104,7 +104,7 @@ public class ExtraTypes {
         if (arrayContain(longExtra, name)) {
             return LONG;
         }
-        if (arrayContain(boolExtra, name)) {
+        if (arrayContain(booleanExtra, name)) {
             return BOOL;
         }
         if (arrayContain(shortExtra, name)) {

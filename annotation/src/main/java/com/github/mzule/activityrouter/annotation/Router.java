@@ -8,23 +8,26 @@ import java.lang.annotation.Target;
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.CLASS)
 public @interface Router {
+
     String[] value();
 
-    String[] intExtra() default "";
+    String[] stringParams() default "";
 
-    String[] longExtra() default "";
+    String[] intParams() default "";
 
-    String[] boolExtra() default "";
+    String[] longParams() default "";
 
-    String[] shortExtra() default "";
+    String[] booleanParams() default "";
 
-    String[] floatExtra() default "";
+    String[] shortParams() default "";
 
-    String[] doubleExtra() default "";
+    String[] floatParams() default "";
 
-    String[] byteExtra() default "";
+    String[] doubleParams() default "";
 
-    String[] charExtra() default "";
+    String[] byteParams() default "";
+
+    String[] charParams() default "";
 
     String[] transfer() default "";
 }
