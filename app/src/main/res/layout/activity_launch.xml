@@ -44,4 +44,9 @@
     <TextView
         style="@style/Menu"
         android:text="router://user/jack/noting" />
+
+    <TextView
+        style="@style/Menu"
+        android:text="mzule://www.mzule.com/with_host" />
+    
 </LinearLayout>
