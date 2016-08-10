@@ -24,7 +24,7 @@ app project build.gradle
 apply plugin: 'android-apt'
 
 dependencies {
-	compile 'com.github.mzule.activityrouter:activityrouter:1.1.5'
+	compile 'com.github.mzule.activityrouter:activityrouter:1.1.6'
 	apt 'com.github.mzule.activityrouter:compiler:1.1.5'
 }
 ```
@@ -153,6 +153,12 @@ Routers.open(context, "mzule://main/0xff878798")
 Routers.open(context, Uri.parse("mzule://main/0xff878798"))
 ```
 Open activities in app self.
+
+### 8. Raw url support
+
+``` java
+getIntent().getStringExtra(Routers.KEY_RAW_URL);
+```
 
 ## Proguard
 
