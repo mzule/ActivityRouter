@@ -15,6 +15,8 @@ import java.util.List;
  */
 public class Routers {
 
+    public static String KEY_RAW_URL = "com.github.mzule.activityrouter.router.KeyRawUrl";
+
     private static List<Mapping> mappings = new ArrayList<>();
 
     private static void initIfNeed() {
@@ -80,6 +82,7 @@ public class Routers {
             if (mapping.match(path)) {
                 Intent intent = new Intent(context, mapping.getActivity());
                 intent.putExtras(mapping.parseExtras(uri));
+                intent.putExtra(KEY_RAW_URL, uri.toString());
                 if (!(context instanceof Activity)) {
                     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 }
