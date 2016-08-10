@@ -190,6 +190,12 @@ Routers.open(context, Uri.parse("mzule://main/0xff878798"))
 
 通过`Routers.open(Context, String)`或者`Routers.open(Context, Uri)`可以直接在应用内打开对应的Activity，不去要经过RouterActivity跳转，效率更高。
 
+### 支持获取原始 url 信息
+
+``` java
+getIntent().getStringExtra(Routers.KEY_RAW_URL);
+```
+
 ## 混淆配置
 
 ``` groovy
