@@ -1,5 +1,8 @@
 package com.github.mzule.activityrouter;
 
+import com.github.mzule.activityrouter.router.RouterCallbackProvider;
+import com.github.mzule.activityrouter.router.Routers;
+
 import android.app.Activity;
 import android.net.Uri;
 import android.os.Bundle;
@@ -7,13 +10,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.github.mzule.activityrouter.router.RouterCallbackProvider;
-import com.github.mzule.activityrouter.router.Routers;
-
 /**
  * Created by CaoDongping on 4/7/16.
  */
 public class LaunchActivity extends Activity {
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,5 +38,7 @@ public class LaunchActivity extends Activity {
                 });
             }
         }
+
     }
+
 }

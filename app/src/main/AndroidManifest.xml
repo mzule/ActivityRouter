@@ -21,6 +21,7 @@
         <activity android:name=".UserActivity" />
         <activity android:name=".UserCollectionActivity" />
         <activity android:name=".NotFoundActivity" />
+        <activity android:name=".HostActivity" />
         <activity android:name=".ErrorStackActivity" />
         <activity
             android:name=".router.RouterActivity"
@@ -42,6 +43,17 @@
                 <data
                     android:host="mzule.com"
                     android:scheme="http" />
+            </intent-filter>
+            
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:host="www.mzule.com"
+                    android:scheme="mzule" />
             </intent-filter>
         </activity>
     </application>

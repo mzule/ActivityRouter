@@ -4,9 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
-import android.util.Log;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -16,27 +14,14 @@ import java.util.List;
  * Created by CaoDongping on 4/6/16.
  */
 public class Routers {
-    private static final String TAG = Routers.class.getSimpleName();
+
     private static List<Mapping> mappings = new ArrayList<>();
 
     private static void initIfNeed() {
-        long startTime = System.currentTimeMillis();
         if (!mappings.isEmpty()) {
             return;
         }
-        try {
-            Class<?> clazz = Class.forName("com.github.mzule.activityrouter.router.RouterMapping");
-            clazz.getMethod("map").invoke(null);
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        } catch (InvocationTargetException e) {
-            e.printStackTrace();
-        } catch (NoSuchMethodException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        }
-        Log.d(TAG, "Routers.init() cost " + (System.currentTimeMillis() - startTime) + "ms");
+        RouterMapping.map();
     }
 
     static void map(String format, Class<? extends Activity> activity, ExtraTypes extraTypes) {
@@ -91,6 +76,11 @@ public class Routers {
     private static boolean doOpen(Context context, Uri uri) {
         initIfNeed();
         Path path = Path.create(uri);
+        String host = uri.getHost();
+        if (host.contains(".")) {
+            path = path.next();
+        }
+
         for (Mapping mapping : mappings) {
             if (mapping.match(path)) {
                 Intent intent = new Intent(context, mapping.getActivity());
