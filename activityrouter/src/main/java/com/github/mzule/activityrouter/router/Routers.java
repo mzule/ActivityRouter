@@ -76,11 +76,6 @@ public class Routers {
     private static boolean doOpen(Context context, Uri uri) {
         initIfNeed();
         Path path = Path.create(uri);
-        String host = uri.getHost();
-        if (host.contains(".")) {
-            path = path.next();
-        }
-
         for (Mapping mapping : mappings) {
             if (mapping.match(path)) {
                 Intent intent = new Intent(context, mapping.getActivity());

@@ -66,7 +66,13 @@ public class Mapping {
         if (formatPath.isHttp()) {
             return Path.match(formatPath, fullLink);
         } else {
-            return Path.match(formatPath.next(), fullLink.next());
+            // fullLink without host
+            boolean match = Path.match(formatPath.next(), fullLink.next());
+            if (!match && fullLink.next() != null) {
+                // fullLink with host
+                match = Path.match(formatPath.next(), fullLink.next().next());
+            }
+            return match;
         }
     }
 

@@ -14,6 +14,9 @@ public class Path {
     }
 
     public static boolean match(final Path format, final Path link) {
+        if (format == null || link == null) {
+            return false;
+        }
         if (format.length() != link.length()) {
             return false;
         }
@@ -45,7 +48,7 @@ public class Path {
     private static void parse(Path scheme, String s) {
         String[] components = s.split("/");
         Path curPath = scheme;
-        for(String component: components) {
+        for (String component : components) {
             Path temp = new Path(component);
             curPath.next = temp;
             curPath = temp;
