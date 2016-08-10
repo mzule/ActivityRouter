@@ -26,8 +26,8 @@ buildscript {
 apply plugin: 'android-apt'
 
 dependencies {
-	compile 'com.github.mzule.activityrouter:activityrouter:1.1.4'
-	apt 'com.github.mzule.activityrouter:compiler:1.1.3'
+	compile 'com.github.mzule.activityrouter:activityrouter:1.1.5'
+	apt 'com.github.mzule.activityrouter:compiler:1.1.5'
 }
 
 ```
