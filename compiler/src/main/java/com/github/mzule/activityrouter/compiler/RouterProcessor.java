@@ -1,8 +1,7 @@
 package com.github.mzule.activityrouter.compiler;
 
-import com.google.auto.service.AutoService;
-
 import com.github.mzule.activityrouter.annotation.Router;
+import com.google.auto.service.AutoService;
 import com.squareup.javapoet.ClassName;
 import com.squareup.javapoet.JavaFile;
 import com.squareup.javapoet.MethodSpec;
@@ -90,14 +89,22 @@ public class RouterProcessor extends AbstractProcessor {
             addStatement(mapMethod, double.class, router.doubleParams());
             addStatement(mapMethod, byte.class, router.byteParams());
             addStatement(mapMethod, char.class, router.charParams());
-            
+
             for (String format : router.value()) {
-                mapMethod.addStatement("com.github.mzule.activityrouter.router.Routers.map($S, $T.class, extraTypes)", format,
-                        ClassName.get((TypeElement) activity));
+                ClassName className = ClassName.get((TypeElement) activity);
+                if (format.startsWith("/")) {
+                    error("Router#value can not start with '/'. at [" + className + "]@Router(\"" + format + "\")");
+                    return false;
+                }
+                if (format.endsWith("/")) {
+                    error("Router#value can not end with '/'. at [" + className + "]@Router(\"" + format + "\")");
+                    return false;
+                }
+                mapMethod.addStatement("com.github.mzule.activityrouter.router.Routers.map($S, $T.class, extraTypes)", format, className);
             }
             mapMethod.addCode("\n");
         }
-        
+
         mapMethod.addStatement("com.github.mzule.activityrouter.router.Routers.sort()");
 
         TypeSpec routerMapping = TypeSpec.classBuilder("RouterMapping")
