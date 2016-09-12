@@ -47,7 +47,7 @@ android {
 }
 
 dependencies {
-    provided project(':fake')
+    provided project(':stub')
     compile 'com.github.mzule.activityrouter:annotation:1.1.3'
 }
 

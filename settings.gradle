@@ -1,1 +1,1 @@
-include ':app', ':compiler', ':annotation', ':activityrouter', ':fake'
+include ':app', ':compiler', ':annotation', ':activityrouter', ':stub'
