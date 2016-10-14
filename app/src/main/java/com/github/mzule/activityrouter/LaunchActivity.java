@@ -1,14 +1,15 @@
 package com.github.mzule.activityrouter;
 
-import com.github.mzule.activityrouter.router.RouterCallbackProvider;
 import com.github.mzule.activityrouter.router.Routers;
 
 import android.app.Activity;
-import android.net.Uri;
+import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 /**
  * Created by CaoDongping on 4/7/16.
@@ -33,12 +34,25 @@ public class LaunchActivity extends Activity {
                         startActivity(intent);
                         */
                         // app内打开页面可以使用Routers.open(Context, Uri)
-                        Routers.open(LaunchActivity.this, Uri.parse(((TextView) view).getText().toString()), ((RouterCallbackProvider) getApplication()).provideRouterCallback());
+                        // Routers.open(LaunchActivity.this, Uri.parse(((TextView) view).getText().toString()), ((RouterCallbackProvider) getApplication()).provideRouterCallback());
+                        Routers.openForResult(LaunchActivity.this, ((TextView) view).getText().toString(), Constant.REQUEST_CODE_DEMO);
                     }
                 });
             }
         }
-
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == RESULT_OK && requestCode == Constant.REQUEST_CODE_DEMO) {
+            String msg;
+            if (data == null) {
+                msg = "success";
+            } else {
+                msg = data.getStringExtra("msg");
+                msg = TextUtils.isEmpty(msg) ? "success" : msg;
+            }
+            Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
+        }
+    }
 }

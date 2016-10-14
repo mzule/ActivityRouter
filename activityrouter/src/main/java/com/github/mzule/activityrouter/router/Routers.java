@@ -54,12 +54,32 @@ public class Routers {
     }
 
     public static boolean open(Context context, Uri uri, RouterCallback callback) {
+        return open(context, uri, -1, callback);
+    }
+
+    public static boolean openForResult(Activity activity, String url, int requestCode) {
+        return openForResult(activity, Uri.parse(url), requestCode);
+    }
+
+    public static boolean openForResult(Activity activity, String url, int requestCode, RouterCallback callback) {
+        return openForResult(activity, Uri.parse(url), requestCode, callback);
+    }
+
+    public static boolean openForResult(Activity activity, Uri uri, int requestCode) {
+        return openForResult(activity, uri, requestCode, null);
+    }
+
+    public static boolean openForResult(Activity activity, Uri uri, int requestCode, RouterCallback callback) {
+        return open(activity, uri, requestCode, callback);
+    }
+
+    private static boolean open(Context context, Uri uri, int requestCode, RouterCallback callback) {
         boolean success = false;
         try {
             if (callback != null) {
                 callback.beforeOpen(context, uri);
             }
-            success = doOpen(context, uri);
+            success = doOpen(context, uri, requestCode);
             if (callback != null) {
                 if (success) {
                     callback.afterOpen(context, uri);
@@ -75,7 +95,7 @@ public class Routers {
         return success;
     }
 
-    private static boolean doOpen(Context context, Uri uri) {
+    private static boolean doOpen(Context context, Uri uri, int requestCode) {
         initIfNeed();
         Path path = Path.create(uri);
         for (Mapping mapping : mappings) {
@@ -86,7 +106,15 @@ public class Routers {
                 if (!(context instanceof Activity)) {
                     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 }
-                context.startActivity(intent);
+                if (requestCode >= 0) {
+                    if (context instanceof Activity) {
+                        ((Activity) context).startActivityForResult(intent, requestCode);
+                    } else {
+                        throw new RuntimeException("can not startActivityForResult context " + context);
+                    }
+                } else {
+                    context.startActivity(intent);
+                }
                 return true;
             }
         }

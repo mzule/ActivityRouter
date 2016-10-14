@@ -8,4 +8,9 @@ import com.github.mzule.activityrouter.annotation.Router;
         transfer = "web=>fromWeb")
 public class MainActivity extends DumpExtrasActivity {
 
+    @Override
+    public void finish() {
+        setResult(RESULT_OK);
+        super.finish();
+    }
 }
