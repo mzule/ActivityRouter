@@ -165,7 +165,7 @@ public class Routers {
                 }
             }
 
-            if (tMapping != null) {
+            if (tMapping != null && !uriMap.containsValue(tMapping)) {
 //                tMappingList.add(tMapping);
                 uriMap.put(tUri, tMapping);
             }
