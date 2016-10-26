@@ -6,7 +6,7 @@ targetCompatibility = 1.7
 
 android {
     compileSdkVersion 23
-    buildToolsVersion "23.0.2"
+    buildToolsVersion '25'
 
     defaultConfig {
         applicationId "com.github.mzule.activityrouter"

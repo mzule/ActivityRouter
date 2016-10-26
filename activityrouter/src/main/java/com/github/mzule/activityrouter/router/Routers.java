@@ -8,7 +8,10 @@ import android.net.Uri;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by CaoDongping on 4/6/16.
@@ -97,27 +100,157 @@ public class Routers {
 
     private static boolean doOpen(Context context, Uri uri, int requestCode) {
         initIfNeed();
+
+        if (uri == null) {
+            return false;
+        }
+//
+//        List<String> uriStringList = uri.getPathSegments();
+//
+//        String scheme = uri.getScheme();
+//        String a= uri.getAuthority();
+//        String b= uri.getHost();
+//        String c = uri.getSchemeSpecificPart();
+//        String d = uri.getUserInfo();
+
+
+//        List<Mapping> tMappingList = new ArrayList<>();
+        //----------------------------------------------------------------
+        //--------------------------------注释--------------------------------
+        //----------------------------------------------------------------
+        String pathConstant = "://";
+        String scheme = uri.getScheme().concat(pathConstant);
+        String allPath = uri.toString();
+        if (allPath.contains(pathConstant)) {
+            allPath = allPath.substring(allPath.indexOf(pathConstant) + pathConstant.length());
+        }
+
+        String[] pathArray = allPath.split("/");
+
+        int start = 0;
+        int end = start + 1;
+        int arrayLength = pathArray.length;
+
+        StringBuilder stringBuilder;
+
+        //-
+        HashMap<Uri, Mapping> uriMap = new HashMap<>();
+
+        Uri tUri = null;
+        Mapping tMapping = null;
+
+        Mapping itemMapping = null;
+
+        Uri itemUri = null;
+        String itemPath = null;
+
+        for (String tPath : pathArray) {
+            stringBuilder = new StringBuilder(scheme);
+            stringBuilder.append(tPath);
+
+            tUri = Uri.parse(stringBuilder.toString());
+            tMapping = findMap(tUri);
+
+            for (; end < arrayLength; end++) {
+                if (end - 1 >= 0 && pathArray[end - 1].contains("?")) {
+                    break;
+                }
+                itemPath = stringBuilder.append("/").append(pathArray[end]).toString();
+                itemUri = Uri.parse(itemPath);
+                itemMapping = findMap(itemUri);
+
+                if (itemMapping != null) {
+                    tMapping = itemMapping;
+                    tUri = itemUri;
+                }
+            }
+
+            if (tMapping != null) {
+//                tMappingList.add(tMapping);
+                uriMap.put(tUri, tMapping);
+            }
+
+
+            start++;
+            end = start + 1;
+        }
+
+//        return doOpenList(tMappingList, context, uri, requestCode);
+        return doOpenList(uriMap, context, requestCode);
+    }
+
+    private static Mapping findMap(Uri uri) {
         Path path = Path.create(uri);
+
         for (Mapping mapping : mappings) {
             if (mapping.match(path)) {
-                Intent intent = new Intent(context, mapping.getActivity());
-                intent.putExtras(mapping.parseExtras(uri));
-                intent.putExtra(KEY_RAW_URL, uri.toString());
-                if (!(context instanceof Activity)) {
-                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                }
-                if (requestCode >= 0) {
-                    if (context instanceof Activity) {
-                        ((Activity) context).startActivityForResult(intent, requestCode);
-                    } else {
-                        throw new RuntimeException("can not startActivityForResult context " + context);
-                    }
-                } else {
-                    context.startActivity(intent);
-                }
-                return true;
+                return mapping;
             }
         }
-        return false;
+
+        return null;
+    }
+
+//    private static boolean doOpenList(List<Mapping> tMappings, Context context, Uri uri, int requestCode) {
+//        if (tMappings == null || tMappings.size() == 0) {
+//            return false;
+//        }
+//        for (Mapping mapping : tMappings) {
+//            Intent intent = new Intent(context, mapping.getActivity());
+//            intent.putExtras(mapping.parseExtras(uri));
+//            intent.putExtra(KEY_RAW_URL, uri.toString());
+//            if (!(context instanceof Activity)) {
+//                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//            }
+//            if (requestCode >= 0) {
+//                if (context instanceof Activity) {
+//                    ((Activity) context).startActivityForResult(intent, requestCode);
+//                } else {
+//                    throw new RuntimeException("can not startActivityForResult context " + context);
+//                }
+//            } else {
+//                context.startActivity(intent);
+//            }
+//        }
+//
+//        return true;
+//    }
+
+    private static boolean doOpen(Mapping map, Context context, Uri uri, int requestCode) {
+        Intent intent = new Intent(context, map.getActivity());
+        intent.putExtras(map.parseExtras(uri));
+        intent.putExtra(KEY_RAW_URL, uri.toString());
+        if (!(context instanceof Activity)) {
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        }
+        if (requestCode >= 0) {
+            if (context instanceof Activity) {
+                ((Activity) context).startActivityForResult(intent, requestCode);
+            } else {
+                throw new RuntimeException("can not startActivityForResult context " + context);
+            }
+        } else {
+            context.startActivity(intent);
+        }
+
+        return true;
+    }
+
+    private static boolean doOpenList(HashMap<Uri, Mapping> uriMap, Context context, int requestCode) {
+        if (uriMap == null || uriMap.size() == 0) {
+            return false;
+        }
+
+        Iterator<Map.Entry<Uri, Mapping>> iterator = uriMap.entrySet().iterator();
+
+        Map.Entry<Uri, Mapping> entry = null;
+        while (iterator.hasNext()) {
+            entry = iterator.next();
+            if (entry != null) {
+                doOpen(entry.getValue(), context, entry.getKey(), requestCode);
+            }
+        }
+
+        return true;
     }
 }
