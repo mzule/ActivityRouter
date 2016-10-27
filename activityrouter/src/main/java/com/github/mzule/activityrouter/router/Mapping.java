@@ -52,7 +52,7 @@ public class Mapping {
         }
         if (o instanceof Mapping) {
             Mapping that = (Mapping) o;
-            return that.format.equals(((Mapping) o).format);
+            return format.equals(that.format);
         }
         return false;
     }
@@ -70,7 +70,8 @@ public class Mapping {
             boolean match = Path.match(formatPath.next(), fullLink.next());
             if (!match && fullLink.next() != null) {
                 // fullLink with host
-                match = Path.match(formatPath.next(), fullLink.next().next());
+//                match = Path.match(formatPath.next(), fullLink.next().next());
+                match = false;
             }
             return match;
         }

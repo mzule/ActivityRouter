@@ -70,7 +70,22 @@ public class Path {
     }
 
     private boolean match(Path path) {
-        return isArgument() || value.equals(path.value);
+        boolean isMatch = isArgument();
+        if (!isMatch) {
+//            isMatch = value.equals(path.value);
+            if (value != null && path != null && path.value != null) {
+                String regularExpression = "\\?";
+                String valueX = value.split(regularExpression)[0];
+                String valueY = path.value.split(regularExpression)[0];
+                isMatch = valueX.equals(valueY);
+            }
+        }
+
+//        if (!isMatch) {
+//
+//        }
+
+        return  isMatch;
     }
 
     public boolean isArgument() {
