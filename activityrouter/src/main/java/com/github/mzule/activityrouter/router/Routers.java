@@ -3,16 +3,13 @@ package com.github.mzule.activityrouter.router;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SyncStatusObserver;
 import android.net.Uri;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by CaoDongping on 4/6/16.
@@ -168,8 +165,7 @@ public class Routers {
                 }
             }
 
-            if (tMapping != null) {
-//                && !uriMap.containsValue(tMapping)
+            if (tMapping != null && !uriMap.containsValue(tMapping)) {
                 uriList.add(tUri);
                 uriMap.put(tUri, tMapping);
             }
@@ -180,7 +176,7 @@ public class Routers {
         }
 
 //        return doOpenList(tMappingList, context, uri, requestCode);
-        return doOpenList(uriList,uriMap, context, requestCode);
+        return doOpenList(uriList, uriMap, context, requestCode);
     }
 
     private static Mapping findMap(Uri uri) {
@@ -240,7 +236,7 @@ public class Routers {
         return true;
     }
 
-    private static boolean doOpenList(List<Uri> uriList,HashMap<Uri, Mapping> uriMap, Context context, int requestCode) {
+    private static boolean doOpenList(List<Uri> uriList, HashMap<Uri, Mapping> uriMap, Context context, int requestCode) {
         if (uriMap == null || uriMap.size() == 0 || uriList == null || uriList.size() == 0) {
             return false;
         }
