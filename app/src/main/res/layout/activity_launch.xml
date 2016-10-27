@@ -31,6 +31,11 @@
         android:text="router://user/collection?id=911/home/211"
         android:textColor="#66FF0000"/>
 
+    <TextView
+        style="@style/Menu"
+        android:text="router://course_list/paper_list?type=1"
+        android:textColor="#6600FF00"/>
+
 
     <TextView
         style="@style/Menu"

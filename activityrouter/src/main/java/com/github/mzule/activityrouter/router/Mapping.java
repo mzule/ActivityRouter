@@ -70,7 +70,8 @@ public class Mapping {
             boolean match = Path.match(formatPath.next(), fullLink.next());
             if (!match && fullLink.next() != null) {
                 // fullLink with host
-                match = Path.match(formatPath.next(), fullLink.next().next());
+//                match = Path.match(formatPath.next(), fullLink.next().next());
+                match = false;
             }
             return match;
         }

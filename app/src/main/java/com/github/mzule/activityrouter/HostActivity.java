@@ -7,5 +7,6 @@ import com.github.mzule.activityrouter.annotation.Router;
  * @date 2016/8/9
  */
 //@Router("with_host")
-public class HostActivity extends DumpExtrasActivity{
+@Router("paper_list")
+public class HostActivity extends DumpExtrasActivity {
 }
