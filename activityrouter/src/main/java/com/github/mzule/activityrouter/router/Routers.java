@@ -1,14 +1,14 @@
 package com.github.mzule.activityrouter.router;
 
-import android.app.Activity;
-import android.content.Context;
-import android.content.Intent;
-import android.net.Uri;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+
+import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 
 /**
  * Created by CaoDongping on 4/6/16.
@@ -23,14 +23,15 @@ public class Routers {
         if (!mappings.isEmpty()) {
             return;
         }
-        RouterMapping.map();
+        RouterInit.init();
+        sort();
     }
 
     static void map(String format, Class<? extends Activity> activity, ExtraTypes extraTypes) {
         mappings.add(new Mapping(format, activity, extraTypes));
     }
 
-    static void sort() {
+    private static void sort() {
         // ensure that user/collection is rank top over user/:userId
         // so scheme://user/collection will match user/collection not user/:userId
         Collections.sort(mappings, new Comparator<Mapping>() {
