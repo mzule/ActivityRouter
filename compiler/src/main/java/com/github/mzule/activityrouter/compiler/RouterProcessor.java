@@ -25,7 +25,7 @@ import com.squareup.javapoet.TypeSpec;
 
 @AutoService(Processor.class)
 public class RouterProcessor extends AbstractProcessor {
-    private static final boolean DEBUG = true;
+    private static final boolean DEBUG = false;
     private Messager messager;
     private Filer filer;
 
