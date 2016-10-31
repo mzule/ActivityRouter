@@ -1,15 +1,7 @@
 package com.github.mzule.activityrouter.compiler;
 
-import com.github.mzule.activityrouter.annotation.Router;
-import com.google.auto.service.AutoService;
-import com.squareup.javapoet.ClassName;
-import com.squareup.javapoet.JavaFile;
-import com.squareup.javapoet.MethodSpec;
-import com.squareup.javapoet.TypeSpec;
-
-import java.util.Collections;
+import java.util.HashSet;
 import java.util.Set;
-
 import javax.annotation.processing.AbstractProcessor;
 import javax.annotation.processing.Filer;
 import javax.annotation.processing.Messager;
@@ -22,12 +14,19 @@ import javax.lang.model.element.ElementKind;
 import javax.lang.model.element.Modifier;
 import javax.lang.model.element.TypeElement;
 import javax.tools.Diagnostic;
+import com.github.mzule.activityrouter.annotation.Module;
+import com.github.mzule.activityrouter.annotation.Modules;
+import com.github.mzule.activityrouter.annotation.Router;
+import com.google.auto.service.AutoService;
+import com.squareup.javapoet.ClassName;
+import com.squareup.javapoet.JavaFile;
+import com.squareup.javapoet.MethodSpec;
+import com.squareup.javapoet.TypeSpec;
 
 @AutoService(Processor.class)
 public class RouterProcessor extends AbstractProcessor {
-
+    private static final boolean DEBUG = false;
     private Messager messager;
-
     private Filer filer;
 
     @Override
@@ -39,7 +38,11 @@ public class RouterProcessor extends AbstractProcessor {
 
     @Override
     public Set<String> getSupportedAnnotationTypes() {
-        return Collections.singleton(Router.class.getCanonicalName());
+        Set<String> ret = new HashSet<>();
+        ret.add(Modules.class.getCanonicalName());
+        ret.add(Module.class.getCanonicalName());
+        ret.add(Router.class.getCanonicalName());
+        return ret;
     }
 
     @Override
@@ -49,6 +52,77 @@ public class RouterProcessor extends AbstractProcessor {
 
     @Override
     public boolean process(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv) {
+        debug("process apt with " + annotations.toString());
+        if (annotations.isEmpty()) {
+            return false;
+        }
+        boolean hasModule = false;
+        boolean hasModules = false;
+        // module
+        String moduleName = "RouterMapping";
+        Set<? extends Element> moduleList = roundEnv.getElementsAnnotatedWith(Module.class);
+        if (moduleList != null && moduleList.size() > 0) {
+            Module annotation = moduleList.iterator().next().getAnnotation(Module.class);
+            moduleName = moduleName + "_" + annotation.value();
+            hasModule = true;
+        }
+        // modules
+        String[] moduleNames = null;
+        Set<? extends Element> modulesList = roundEnv.getElementsAnnotatedWith(Modules.class);
+        if (modulesList != null && modulesList.size() > 0) {
+            Element modules = modulesList.iterator().next();
+            moduleNames = modules.getAnnotation(Modules.class).value();
+            hasModules = true;
+        }
+        // RouterInit
+        if (hasModules) {
+            debug("generate modules RouterInit");
+            generateModulesRouterInit(moduleNames);
+        } else if (!hasModule) {
+            debug("generate default RouterInit");
+            generateDefaultRouterInit();
+        }
+        // RouterMapping
+        return handleRouter(moduleName, roundEnv);
+    }
+
+    private void generateDefaultRouterInit() {
+        MethodSpec.Builder initMethod = MethodSpec.methodBuilder("init")
+                .addModifiers(Modifier.PUBLIC, Modifier.FINAL, Modifier.STATIC);
+        initMethod.addStatement("RouterMapping.map()");
+        TypeSpec routerInit = TypeSpec.classBuilder("RouterInit")
+                .addModifiers(Modifier.PUBLIC, Modifier.FINAL)
+                .addMethod(initMethod.build())
+                .build();
+        try {
+            JavaFile.builder("com.github.mzule.activityrouter.router", routerInit)
+                    .build()
+                    .writeTo(filer);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void generateModulesRouterInit(String[] moduleNames) {
+        MethodSpec.Builder initMethod = MethodSpec.methodBuilder("init")
+                .addModifiers(Modifier.PUBLIC, Modifier.FINAL, Modifier.STATIC);
+        for (String module : moduleNames) {
+            initMethod.addStatement("RouterMapping_" + module + ".map()");
+        }
+        TypeSpec routerInit = TypeSpec.classBuilder("RouterInit")
+                .addModifiers(Modifier.PUBLIC, Modifier.FINAL)
+                .addMethod(initMethod.build())
+                .build();
+        try {
+            JavaFile.builder("com.github.mzule.activityrouter.router", routerInit)
+                    .build()
+                    .writeTo(filer);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private boolean handleRouter(String genClassName, RoundEnvironment roundEnv) {
         Set<? extends Element> activities = roundEnv.getElementsAnnotatedWith(Router.class);
 
         MethodSpec.Builder mapMethod = MethodSpec.methodBuilder("map")
@@ -64,7 +138,7 @@ public class RouterProcessor extends AbstractProcessor {
             Router router = activity.getAnnotation(Router.class);
 
             String[] transfer = router.transfer();
-            if (transfer != null && transfer.length > 0 && !"".equals(transfer[0])) {
+            if (transfer.length > 0 && !"".equals(transfer[0])) {
                 mapMethod.addStatement("transfer = new java.util.HashMap<String, String>()");
                 for (String s : transfer) {
                     String[] components = s.split("=>");
@@ -104,10 +178,7 @@ public class RouterProcessor extends AbstractProcessor {
             }
             mapMethod.addCode("\n");
         }
-
-        mapMethod.addStatement("com.github.mzule.activityrouter.router.Routers.sort()");
-
-        TypeSpec routerMapping = TypeSpec.classBuilder("RouterMapping")
+        TypeSpec routerMapping = TypeSpec.classBuilder(genClassName)
                 .addModifiers(Modifier.PUBLIC, Modifier.FINAL)
                 .addMethod(mapMethod.build())
                 .build();
@@ -148,5 +219,11 @@ public class RouterProcessor extends AbstractProcessor {
 
     private void error(String error) {
         messager.printMessage(Diagnostic.Kind.ERROR, error);
+    }
+
+    private void debug(String msg) {
+        if (DEBUG) {
+            messager.printMessage(Diagnostic.Kind.NOTE, msg);
+        }
     }
 }
