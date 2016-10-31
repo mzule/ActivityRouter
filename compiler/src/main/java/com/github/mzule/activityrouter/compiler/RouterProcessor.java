@@ -25,9 +25,8 @@ import com.squareup.javapoet.TypeSpec;
 
 @AutoService(Processor.class)
 public class RouterProcessor extends AbstractProcessor {
-
+    private static final boolean DEBUG = true;
     private Messager messager;
-
     private Filer filer;
 
     @Override
@@ -53,7 +52,7 @@ public class RouterProcessor extends AbstractProcessor {
 
     @Override
     public boolean process(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv) {
-        messager.printMessage(Diagnostic.Kind.NOTE, "process apt with " + annotations.toString());
+        debug("process apt with " + annotations.toString());
         if (annotations.isEmpty()) {
             return false;
         }
@@ -77,42 +76,50 @@ public class RouterProcessor extends AbstractProcessor {
         }
         // RouterInit
         if (hasModules) {
-            messager.printMessage(Diagnostic.Kind.NOTE, "generate modules RouterInit");
-            MethodSpec.Builder initMethod = MethodSpec.methodBuilder("init")
-                    .addModifiers(Modifier.PUBLIC, Modifier.FINAL, Modifier.STATIC);
-            for (String module : moduleNames) {
-                initMethod.addStatement("RouterMapping_" + module + ".map()");
-            }
-            TypeSpec routerInit = TypeSpec.classBuilder("RouterInit")
-                    .addModifiers(Modifier.PUBLIC, Modifier.FINAL)
-                    .addMethod(initMethod.build())
-                    .build();
-            try {
-                JavaFile.builder("com.github.mzule.activityrouter.router", routerInit)
-                        .build()
-                        .writeTo(filer);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+            debug("generate modules RouterInit");
+            generateModulesRouterInit(moduleNames);
         } else if (!hasModule) {
-            messager.printMessage(Diagnostic.Kind.NOTE, "generate default RouterInit");
-            MethodSpec.Builder initMethod = MethodSpec.methodBuilder("init")
-                    .addModifiers(Modifier.PUBLIC, Modifier.FINAL, Modifier.STATIC);
-            initMethod.addStatement("RouterMapping.map()");
-            TypeSpec routerInit = TypeSpec.classBuilder("RouterInit")
-                    .addModifiers(Modifier.PUBLIC, Modifier.FINAL)
-                    .addMethod(initMethod.build())
-                    .build();
-            try {
-                JavaFile.builder("com.github.mzule.activityrouter.router", routerInit)
-                        .build()
-                        .writeTo(filer);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+            debug("generate default RouterInit");
+            generateDefaultRouterInit();
         }
         // RouterMapping
         return handleRouter(moduleName, roundEnv);
+    }
+
+    private void generateDefaultRouterInit() {
+        MethodSpec.Builder initMethod = MethodSpec.methodBuilder("init")
+                .addModifiers(Modifier.PUBLIC, Modifier.FINAL, Modifier.STATIC);
+        initMethod.addStatement("RouterMapping.map()");
+        TypeSpec routerInit = TypeSpec.classBuilder("RouterInit")
+                .addModifiers(Modifier.PUBLIC, Modifier.FINAL)
+                .addMethod(initMethod.build())
+                .build();
+        try {
+            JavaFile.builder("com.github.mzule.activityrouter.router", routerInit)
+                    .build()
+                    .writeTo(filer);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void generateModulesRouterInit(String[] moduleNames) {
+        MethodSpec.Builder initMethod = MethodSpec.methodBuilder("init")
+                .addModifiers(Modifier.PUBLIC, Modifier.FINAL, Modifier.STATIC);
+        for (String module : moduleNames) {
+            initMethod.addStatement("RouterMapping_" + module + ".map()");
+        }
+        TypeSpec routerInit = TypeSpec.classBuilder("RouterInit")
+                .addModifiers(Modifier.PUBLIC, Modifier.FINAL)
+                .addMethod(initMethod.build())
+                .build();
+        try {
+            JavaFile.builder("com.github.mzule.activityrouter.router", routerInit)
+                    .build()
+                    .writeTo(filer);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private boolean handleRouter(String genClassName, RoundEnvironment roundEnv) {
@@ -212,5 +219,11 @@ public class RouterProcessor extends AbstractProcessor {
 
     private void error(String error) {
         messager.printMessage(Diagnostic.Kind.ERROR, error);
+    }
+
+    private void debug(String msg) {
+        if (DEBUG) {
+            messager.printMessage(Diagnostic.Kind.NOTE, msg);
+        }
     }
 }
