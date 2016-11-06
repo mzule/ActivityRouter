@@ -162,6 +162,16 @@ Open activities in app self.
 getIntent().getStringExtra(Routers.KEY_RAW_URL);
 ```
 
+### 9. Invoke a method via url
+
+``` java
+@Router("logout")
+public static void logout(Context context, Bundle bundle) {
+}
+```
+
+Define a public static method with arguments type Context and Bundle. Annotated it with @Router to define its url.
+
 ## Proguard
 
 ``` java

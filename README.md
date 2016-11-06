@@ -198,6 +198,16 @@ Routers.openForResult(activity, Uri.parse("mzule://main/0xff878798"), REQUEST_CO
 getIntent().getStringExtra(Routers.KEY_RAW_URL);
 ```
 
+### 支持通过 url 调用方法
+
+``` java
+@Router("logout")
+public static void logout(Context context, Bundle bundle) {
+}
+```
+
+在任意参数为 Context 和 Bundle 的静态公共方法上, 通过 @Router 标记即可定义方法的 url. @Router 使用方式与上述一致。
+
 ## 混淆配置
 
 ``` groovy
