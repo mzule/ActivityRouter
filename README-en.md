@@ -24,8 +24,8 @@ app project build.gradle
 apply plugin: 'android-apt'
 
 dependencies {
-	compile 'com.github.mzule.activityrouter:activityrouter:1.1.8'
-	apt 'com.github.mzule.activityrouter:compiler:1.1.5'
+	compile 'com.github.mzule.activityrouter:activityrouter:1.2.0'
+	apt 'com.github.mzule.activityrouter:compiler:1.1.7'
 }
 ```
 
