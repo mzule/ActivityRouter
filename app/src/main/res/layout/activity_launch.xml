@@ -1,53 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/container"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+              android:id="@+id/container"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
 
     <TextView
         style="@style/Menu"
-        android:text="router://main?id=7865&amp;updateTime=53789&amp;web=true&amp;other=i+am+lost" />
+        android:text="router://main?id=7865&amp;updateTime=53789&amp;web=true&amp;other=i+am+lost"/>
 
     <TextView
         style="@style/Menu"
-        android:text="router://home?id=53789&amp;o=you+are+best" />
+        android:text="router://home?id=53789&amp;o=you+are+best"/>
 
     <TextView
         style="@style/Menu"
-        android:text="http://mzule.com/main?id=888" />
+        android:text="http://mzule.com/main?id=888"/>
 
     <TextView
         style="@style/Menu"
-        android:text="http://mzule.com/main?id=888-invalid-id" />
+        android:text="http://mzule.com/main?id=888-invalid-id"/>
 
     <TextView
         style="@style/Menu"
-        android:text="router://home/somebody?id=123" />
+        android:text="router://home/somebody?id=123"/>
 
     <TextView
         style="@style/Menu"
-        android:text="router://user/mzule" />
+        android:text="router://user/mzule"/>
 
     <TextView
         style="@style/Menu"
-        android:text="router://user/collection" />
+        android:text="router://user/collection"/>
 
     <TextView
         style="@style/Menu"
-        android:text="router://user/collection?id=911" />
+        android:text="router://user/collection?id=911"/>
 
     <TextView
         style="@style/Menu"
-        android:text="router://user/nickname/city/shanghai/gender/1/age/98" />
+        android:text="router://user/nickname/city/shanghai/gender/1/age/98"/>
 
     <TextView
         style="@style/Menu"
-        android:text="router://user/nickname/city/shanghai/gender/1/age/98?age=89&amp;gender=3&amp;nickname=fans" />
+        android:text="router://user/nickname/city/shanghai/gender/1/age/98?age=89&amp;gender=3&amp;nickname=fans"/>
 
     <TextView
         style="@style/Menu"
-        android:text="router://user/jack/noting" />
+        android:text="router://user/jack/noting"/>
 
     <TextView
         style="@style/Menu"
@@ -55,5 +55,13 @@
 
     <TextView
         style="@style/Menu"
-        android:text="mzule://www.mzule.com/with_host" />
+        android:text="mzule://www.mzule.com/with_host"/>
+
+    <TextView
+        style="@style/Menu"
+        android:text="mzule://logout"/>
+
+    <TextView
+        style="@style/Menu"
+        android:text="mzule://upload"/>
 </LinearLayout>

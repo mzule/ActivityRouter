@@ -1,10 +1,10 @@
 package com.github.mzule.activityrouter.router;
 
+import java.util.Set;
+
 import android.app.Activity;
 import android.net.Uri;
 import android.os.Bundle;
-
-import java.util.Set;
 
 /**
  * Created by CaoDongping on 4/6/16.
@@ -12,24 +12,27 @@ import java.util.Set;
 public class Mapping {
     private final String format;
     private final Class<? extends Activity> activity;
+    private final MethodInvoker method;
     private final ExtraTypes extraTypes;
     private Path formatPath;
 
-    public Mapping(String format, Class<? extends Activity> activity, ExtraTypes extraTypes) {
+    public Mapping(String format, Class<? extends Activity> activity, MethodInvoker method, ExtraTypes extraTypes) {
         if (format == null) {
             throw new NullPointerException("format can not be null");
         }
-        if (activity == null) {
-            throw new NullPointerException("activity can not be null");
-        }
         this.format = format;
         this.activity = activity;
+        this.method = method;
         this.extraTypes = extraTypes;
         if (format.toLowerCase().startsWith("http://") || format.toLowerCase().startsWith("https://")) {
             this.formatPath = Path.create(Uri.parse(format));
         } else {
             this.formatPath = Path.create(Uri.parse("helper://".concat(format)));
         }
+    }
+
+    public MethodInvoker getMethod() {
+        return method;
     }
 
     public Class<? extends Activity> getActivity() {

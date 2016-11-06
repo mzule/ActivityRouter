@@ -12,6 +12,7 @@ import javax.lang.model.SourceVersion;
 import javax.lang.model.element.Element;
 import javax.lang.model.element.ElementKind;
 import javax.lang.model.element.Modifier;
+import javax.lang.model.element.Name;
 import javax.lang.model.element.TypeElement;
 import javax.tools.Diagnostic;
 import com.github.mzule.activityrouter.annotation.Module;
@@ -123,7 +124,7 @@ public class RouterProcessor extends AbstractProcessor {
     }
 
     private boolean handleRouter(String genClassName, RoundEnvironment roundEnv) {
-        Set<? extends Element> activities = roundEnv.getElementsAnnotatedWith(Router.class);
+        Set<? extends Element> elements = roundEnv.getElementsAnnotatedWith(Router.class);
 
         MethodSpec.Builder mapMethod = MethodSpec.methodBuilder("map")
                 .addModifiers(Modifier.PUBLIC, Modifier.FINAL, Modifier.STATIC)
@@ -131,12 +132,8 @@ public class RouterProcessor extends AbstractProcessor {
                 .addStatement("com.github.mzule.activityrouter.router.ExtraTypes extraTypes")
                 .addCode("\n");
 
-        for (Element activity : activities) {
-            if (activity.getKind() != ElementKind.CLASS) {
-                error("Router can only apply on class");
-            }
-            Router router = activity.getAnnotation(Router.class);
-
+        for (Element element : elements) {
+            Router router = element.getAnnotation(Router.class);
             String[] transfer = router.transfer();
             if (transfer.length > 0 && !"".equals(transfer[0])) {
                 mapMethod.addStatement("transfer = new java.util.HashMap<String, String>()");
@@ -165,7 +162,16 @@ public class RouterProcessor extends AbstractProcessor {
             addStatement(mapMethod, char.class, router.charParams());
 
             for (String format : router.value()) {
-                ClassName className = ClassName.get((TypeElement) activity);
+                ClassName className;
+                Name methodName = null;
+                if (element.getKind() == ElementKind.CLASS) {
+                    className = ClassName.get((TypeElement) element);
+                } else if (element.getKind() == ElementKind.METHOD) {
+                    className = ClassName.get((TypeElement) element.getEnclosingElement());
+                    methodName = element.getSimpleName();
+                } else {
+                    throw new IllegalArgumentException("unknow type");
+                }
                 if (format.startsWith("/")) {
                     error("Router#value can not start with '/'. at [" + className + "]@Router(\"" + format + "\")");
                     return false;
@@ -174,7 +180,17 @@ public class RouterProcessor extends AbstractProcessor {
                     error("Router#value can not end with '/'. at [" + className + "]@Router(\"" + format + "\")");
                     return false;
                 }
-                mapMethod.addStatement("com.github.mzule.activityrouter.router.Routers.map($S, $T.class, extraTypes)", format, className);
+                if (element.getKind() == ElementKind.CLASS) {
+                    mapMethod.addStatement("com.github.mzule.activityrouter.router.Routers.map($S, $T.class, null, extraTypes)", format, className);
+                } else {
+                    mapMethod.addStatement("com.github.mzule.activityrouter.router.Routers.map($S, null, " +
+                            "new MethodInvoker() {\n" +
+                            "   public void invoke(android.content.Context context, android.os.Bundle bundle) {\n" +
+                            "       $T.$N(context, bundle);\n" +
+                            "   }\n" +
+                            "}, " +
+                            "extraTypes)", format, className, methodName);
+                }
             }
             mapMethod.addCode("\n");
         }

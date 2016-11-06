@@ -27,8 +27,8 @@ public class Routers {
         sort();
     }
 
-    static void map(String format, Class<? extends Activity> activity, ExtraTypes extraTypes) {
-        mappings.add(new Mapping(format, activity, extraTypes));
+    static void map(String format, Class<? extends Activity> activity, MethodInvoker method, ExtraTypes extraTypes) {
+        mappings.add(new Mapping(format, activity, method, extraTypes));
     }
 
     private static void sort() {
@@ -101,6 +101,10 @@ public class Routers {
         Path path = Path.create(uri);
         for (Mapping mapping : mappings) {
             if (mapping.match(path)) {
+                if (mapping.getActivity() == null) {
+                    mapping.getMethod().invoke(context, mapping.parseExtras(uri));
+                    return true;
+                }
                 Intent intent = new Intent(context, mapping.getActivity());
                 intent.putExtras(mapping.parseExtras(uri));
                 intent.putExtra(KEY_RAW_URL, uri.toString());
