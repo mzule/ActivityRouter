@@ -55,7 +55,7 @@ public class Mapping {
         }
         if (o instanceof Mapping) {
             Mapping that = (Mapping) o;
-            return that.format.equals(((Mapping) o).format);
+            return format.equals(that.format);
         }
         return false;
     }
