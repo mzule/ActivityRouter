@@ -24,7 +24,7 @@ app project build.gradle
 apply plugin: 'android-apt'
 
 dependencies {
-	compile 'com.github.mzule.activityrouter:activityrouter:1.2.0'
+	compile 'com.github.mzule.activityrouter:activityrouter:1.2.1'
 	apt 'com.github.mzule.activityrouter:compiler:1.1.7'
 }
 ```
@@ -153,6 +153,8 @@ Routers.open(context, "mzule://main/0xff878798")
 Routers.open(context, Uri.parse("mzule://main/0xff878798"))
 Routers.openForResult(activity, "mzule://main/0xff878798", REQUEST_CODE);
 Routers.openForResult(activity, Uri.parse("mzule://main/0xff878798"), REQUEST_CODE);
+// create Intent from url
+Intent intent = Routers.resolve(context, "mzule://main/0xff878798")
 ```
 Open activities in app self.
 
