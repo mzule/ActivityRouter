@@ -96,6 +96,24 @@ public class Routers {
         return success;
     }
 
+    public static Intent resolve(Context context, String url) {
+        return resolve(context, Uri.parse(url));
+    }
+
+    public static Intent resolve(Context context, Uri uri) {
+        initIfNeed();
+        Path path = Path.create(uri);
+        for (Mapping mapping : mappings) {
+            if (mapping.match(path)) {
+                Intent intent = new Intent(context, mapping.getActivity());
+                intent.putExtras(mapping.parseExtras(uri));
+                intent.putExtra(KEY_RAW_URL, uri.toString());
+                return intent;
+            }
+        }
+        return null;
+    }
+
     private static boolean doOpen(Context context, Uri uri, int requestCode) {
         initIfNeed();
         Path path = Path.create(uri);
