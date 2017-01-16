@@ -12,7 +12,8 @@ public class SimpleRouterCallback implements RouterCallback {
     }
 
     @Override
-    public void beforeOpen(Context context, Uri uri) {
+    public boolean beforeOpen(Context context, Uri uri) {
+        return false;
     }
 
     @Override

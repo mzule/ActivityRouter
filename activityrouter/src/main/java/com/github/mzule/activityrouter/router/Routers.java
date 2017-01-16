@@ -51,7 +51,7 @@ public class Routers {
     }
 
     public static boolean open(Context context, Uri uri) {
-        return open(context, uri, null);
+        return open(context, uri, getGlobalCallback(context));
     }
 
     public static boolean open(Context context, Uri uri, RouterCallback callback) {
@@ -67,7 +67,7 @@ public class Routers {
     }
 
     public static boolean openForResult(Activity activity, Uri uri, int requestCode) {
-        return openForResult(activity, uri, requestCode, null);
+        return openForResult(activity, uri, requestCode, getGlobalCallback(activity));
     }
 
     public static boolean openForResult(Activity activity, Uri uri, int requestCode, RouterCallback callback) {
@@ -76,21 +76,26 @@ public class Routers {
 
     private static boolean open(Context context, Uri uri, int requestCode, RouterCallback callback) {
         boolean success = false;
+        if (callback != null) {
+            if (callback.beforeOpen(context, uri)) {
+                return false;
+            }
+        }
+
         try {
-            if (callback != null) {
-                callback.beforeOpen(context, uri);
-            }
             success = doOpen(context, uri, requestCode);
-            if (callback != null) {
-                if (success) {
-                    callback.afterOpen(context, uri);
-                } else {
-                    callback.notFound(context, uri);
-                }
-            }
         } catch (Throwable e) {
+            e.printStackTrace();
             if (callback != null) {
                 callback.error(context, uri, e);
+            }
+        }
+
+        if (callback != null) {
+            if (success) {
+                callback.afterOpen(context, uri);
+            } else {
+                callback.notFound(context, uri);
             }
         }
         return success;
@@ -142,5 +147,12 @@ public class Routers {
             }
         }
         return false;
+    }
+
+    private static RouterCallback getGlobalCallback(Context context) {
+        if (context.getApplicationContext() instanceof RouterCallbackProvider) {
+            return ((RouterCallbackProvider) context.getApplicationContext()).provideRouterCallback();
+        }
+        return null;
     }
 }

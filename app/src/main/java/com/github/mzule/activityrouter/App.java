@@ -19,8 +19,12 @@ public class App extends Application implements RouterCallbackProvider {
     public RouterCallback provideRouterCallback() {
         return new SimpleRouterCallback() {
             @Override
-            public void beforeOpen(Context context, Uri uri) {
-                context.startActivity(new Intent(context, LaunchActivity.class));
+            public boolean beforeOpen(Context context, Uri uri) {
+                if (uri.toString().startsWith("mzule://")) {
+                    context.startActivity(new Intent(context, LaunchActivity.class));
+                    return true;
+                }
+                return false;
             }
 
             @Override

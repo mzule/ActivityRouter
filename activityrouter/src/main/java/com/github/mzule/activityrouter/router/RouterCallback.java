@@ -9,7 +9,7 @@ import android.net.Uri;
 public interface RouterCallback {
     void notFound(Context context, Uri uri);
 
-    void beforeOpen(Context context, Uri uri);
+    boolean beforeOpen(Context context, Uri uri);
 
     void afterOpen(Context context, Uri uri);
 
