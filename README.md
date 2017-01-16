@@ -26,7 +26,7 @@ buildscript {
 apply plugin: 'android-apt'
 
 dependencies {
-	compile 'com.github.mzule.activityrouter:activityrouter:1.2.1'
+	compile 'com.github.mzule.activityrouter:activityrouter:1.2.2'
 	apt 'com.github.mzule.activityrouter:compiler:1.1.7'
 }
 
@@ -127,8 +127,10 @@ public class App extends Application implements RouterCallbackProvider {
     public RouterCallback provideRouterCallback() {
         return new SimpleRouterCallback() {
             @Override
-            public void beforeOpen(Context context, Uri uri) {
+            public boolean beforeOpen(Context context, Uri uri) {
                 context.startActivity(new Intent(context, LaunchActivity.class));
+                // 是否拦截，true 拦截，false 不拦截
+                return false;
             }
 
             @Override
