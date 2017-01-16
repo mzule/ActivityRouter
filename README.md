@@ -4,14 +4,14 @@
 
 ## 功能
 
-支持给`Activity`定义URL，这样可以通过URL跳转到`Activity`，支持在浏览器以及app中跳入。
+支持给`Activity`定义 URL，这样可以通过 URL 跳转到`Activity`，支持在浏览器以及 app 中跳入。
 
 ![image](https://raw.githubusercontent.com/mzule/ActivityRouter/master/gif/router.gif)
 
 ![image](https://raw.githubusercontent.com/mzule/ActivityRouter/master/gif/http.gif)
 
 ## 集成
-根目录build.gradle
+根目录 build.gradle
 
 ``` groovy
 buildscript {
@@ -21,7 +21,7 @@ buildscript {
 }
 ```
 
-项目app/build.gradle
+项目 app/build.gradle
 ``` groovy
 apply plugin: 'android-apt'
 
@@ -74,15 +74,15 @@ public class MainActivity extends Activity {
 ```
 上面的配置，可以通过`mzule://main?color=0xff878798&name=you+are+best`来传递参数，在`MainActivity#onCreate`中通过`getIntent().getStringExtra("name")`的方式来获取参数，所有的参数默认为`String`类型，但是可以通过配置指定参数类型，后面会介绍。
 
-### 支持在path中定义参数
+### 支持在 path 中定义参数
 
 ``` java
 @Router("main/:color")
 ```
 
-通过`:color`的方式定义参数，参数名为`color`，访问`mzule://main/0xff878798`，可以在`MainActivity#onCreate`通过`getIntent().getStringExtra("color")`获取到color的值`0xff878798`
+通过`:color`的方式定义参数，参数名为`color`，访问`mzule://main/0xff878798`，可以在`MainActivity#onCreate`通过`getIntent().getStringExtra("color")`获取到 color 的值`0xff878798`
 
-### 支持多级path参数
+### 支持多级 path 参数
 
 ``` java
 @Router("user/:userId/:topicId/:commentId")
@@ -98,7 +98,7 @@ public class MainActivity extends Activity {
 ``` java
 @Router(value = "main/:color", intParams = "color")
 ```
-这样指定了参数`color`的类型为`int`，在`MainActivity#onCreate`获取color可以通过`getIntent().getIntExtra("color", 0)`来获取。支持的参数类型有`int`,`long`,`short`,`byte`,`char`,`float`,`double`,`boolean`，默认不指定则为`String`类型。
+这样指定了参数`color`的类型为`int`，在`MainActivity#onCreate`获取 color 可以通过`getIntent().getIntExtra("color", 0)`来获取。支持的参数类型有`int`,`long`,`short`,`byte`,`char`,`float`,`double`,`boolean`，默认不指定则为`String`类型。
 
 ### 支持优先适配
 
@@ -119,7 +119,7 @@ public class UserStatisticsActivity extends Activity {
 
 支持优先适配，意味着，`mzule://user/statistics`会直接适配到`@Router("user/statistics")`，不会适配前一个`@Router("user/:userId")`
 
-### 支持Callback
+### 支持 Callback
 
 ``` java
 public class App extends Application implements RouterCallbackProvider {
@@ -152,7 +152,7 @@ public class App extends Application implements RouterCallbackProvider {
 ```
 在`Application`中实现`RouterCallbackProvider`接口，通过`provideRouterCallback()`方法提供`RouterCallback`，具体API如上。
 
-### 支持Http(s)协议
+### 支持 Http(s) 协议
 
 ``` java
 @Router({"http://mzule.com/main", "main"})
@@ -174,9 +174,9 @@ AndroidManifest.xml
 </activity>
 ```
 
-这样，`http://mzule.com/main`和`mzule://main`都可以映射到同一个Activity，值得注意的是，在`@Router`中声明`http`协议地址时，需要写全称。
+这样，`http://mzule.com/main`和`mzule://main`都可以映射到同一个 Activity，值得注意的是，在`@Router`中声明`http`协议地址时，需要写全称。
 
-### 支持参数transfer
+### 支持参数 transfer
 
 ``` java
 @Router(value = "item", longParams = "id", transfer = "id=>itemId")
@@ -194,7 +194,7 @@ Routers.openForResult(activity, Uri.parse("mzule://main/0xff878798"), REQUEST_CO
 Intent intent = Routers.resolve(context, "mzule://main/0xff878798")
 ```
 
-通过`Routers.open(Context, String)`或者`Routers.open(Context, Uri)`可以直接在应用内打开对应的Activity，不去要经过RouterActivity跳转，效率更高。
+通过`Routers.open(Context, String)`或者`Routers.open(Context, Uri)`可以直接在应用内打开对应的 Activity，不去要经过 RouterActivity 跳转，效率更高。
 
 ### 支持获取原始 url 信息
 
@@ -211,6 +211,8 @@ public static void logout(Context context, Bundle bundle) {
 ```
 
 在任意参数为 Context 和 Bundle 的静态公共方法上, 通过 @Router 标记即可定义方法的 url. @Router 使用方式与上述一致。
+
+### 支持多模块
 
 ## 混淆配置
 
