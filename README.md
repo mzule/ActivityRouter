@@ -67,7 +67,7 @@ public class MainActivity extends Activity {
 `mzule://main`和`mzule://root`都可以访问到同一个`Activity`
 
 
-### 支持获取url中`?`传递的参数
+### 支持获取 url 中`?`传递的参数
 
 ``` java
 @Router("main")
@@ -150,7 +150,7 @@ public class App extends Application implements RouterCallbackProvider {
     }
 }
 ```
-在`Application`中实现`RouterCallbackProvider`接口，通过`provideRouterCallback()`方法提供`RouterCallback`，具体API如上。
+在`Application`中实现`RouterCallbackProvider`接口，通过`provideRouterCallback()`方法提供`RouterCallback`，具体 API 如上。
 
 ### 支持 Http(s) 协议
 
@@ -181,7 +181,7 @@ AndroidManifest.xml
 ``` java
 @Router(value = "item", longParams = "id", transfer = "id=>itemId")
 ```
-这里通过`transfer = "id=>itemId"`的方式，设定了url中名称为`id`的参数会被改名成`itemId`放到参数`Bundle`中，类型为`long`. 值得注意的是，这里，通过`longParams = "id"`或者`longParams = "itemId"`都可以设置参数类型为`long`.
+这里通过`transfer = "id=>itemId"`的方式，设定了 url 中名称为`id`的参数会被改名成`itemId`放到参数`Bundle`中，类型为`long`. 值得注意的是，这里，通过`longParams = "id"`或者`longParams = "itemId"`都可以设置参数类型为`long`.
 
 ### 支持应用内调用
 
