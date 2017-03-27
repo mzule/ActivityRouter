@@ -11,6 +11,19 @@
 ![image](https://raw.githubusercontent.com/mzule/ActivityRouter/master/gif/http.gif)
 
 ## 集成
+
+请根据项目的历史情况选择合适的集成方式
+
+### 1. annotaitonProcessor 方式
+
+``` groovy
+dependencies {
+    compile 'com.github.mzule.activityrouter:activityrouter:1.2.2'
+    annotationProcessor 'com.github.mzule.activityrouter:compiler:1.1.7'
+}
+```
+
+### 2. apt 方式
 根目录 build.gradle
 
 ``` groovy
@@ -26,8 +39,8 @@ buildscript {
 apply plugin: 'android-apt'
 
 dependencies {
-	compile 'com.github.mzule.activityrouter:activityrouter:1.2.2'
-	apt 'com.github.mzule.activityrouter:compiler:1.1.7'
+    compile 'com.github.mzule.activityrouter:activityrouter:1.2.2'
+    apt 'com.github.mzule.activityrouter:compiler:1.1.7'
 }
 
 ```
