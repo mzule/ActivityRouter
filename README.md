@@ -12,9 +12,11 @@
 
 ## 集成
 
+### 1. 添加引用
+
 请根据项目的历史情况选择合适的集成方式
 
-### 1. annotaitonProcessor 方式
+#### 1.1 annotaitonProcessor 方式
 
 ``` groovy
 dependencies {
@@ -23,7 +25,7 @@ dependencies {
 }
 ```
 
-### 2. apt 方式
+#### 1.2 apt 方式
 根目录 build.gradle
 
 ``` groovy
@@ -44,6 +46,7 @@ dependencies {
 }
 
 ```
+### 2. 集成
 
 在`AndroidManifest.xml`配置
 
