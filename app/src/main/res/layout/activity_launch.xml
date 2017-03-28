@@ -59,9 +59,9 @@
 
     <TextView
         style="@style/Menu"
-        android:text="mzule://logout"/>
+        android:text="router://logout"/>
 
     <TextView
         style="@style/Menu"
-        android:text="mzule://upload"/>
+        android:text="router://upload"/>
 </LinearLayout>
