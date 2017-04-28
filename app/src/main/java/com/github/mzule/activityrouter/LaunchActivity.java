@@ -1,7 +1,5 @@
 package com.github.mzule.activityrouter;
 
-import com.github.mzule.activityrouter.router.Routers;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,6 +8,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.github.mzule.activityrouter.router.Routers;
 
 /**
  * Created by CaoDongping on 4/7/16.
@@ -35,11 +35,22 @@ public class LaunchActivity extends Activity {
                         */
                         // app内打开页面可以使用Routers.open(Context, Uri)
                         // Routers.open(LaunchActivity.this, Uri.parse(((TextView) view).getText().toString()), ((RouterCallbackProvider) getApplication()).provideRouterCallback());
-                        Routers.openForResult(LaunchActivity.this, ((TextView) view).getText().toString(), Constant.REQUEST_CODE_DEMO);
+                        Routers.openForResult(LaunchActivity.this,
+                                ((TextView) view).getText().toString(),
+                                Constant.REQUEST_CODE_DEMO);
                     }
                 });
             }
         }
+        final TextView pojoText = (TextView)findViewById(R.id.pojo);
+        pojoText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(final View view) {
+                Bundle bundle = new Bundle();
+                bundle.putParcelable("POJO", new PojoData("CPPAlien", 5));
+                Routers.open(LaunchActivity.this, pojoText.getText().toString(), bundle);
+            }
+        });
     }
 
     @Override

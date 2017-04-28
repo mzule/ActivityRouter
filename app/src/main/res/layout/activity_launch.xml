@@ -64,4 +64,8 @@
     <TextView
         style="@style/Menu"
         android:text="router://upload"/>
+    <TextView
+        android:id="@+id/pojo"
+        style="@style/Menu"
+        android:text="router://test/parcelable"/>
 </LinearLayout>
