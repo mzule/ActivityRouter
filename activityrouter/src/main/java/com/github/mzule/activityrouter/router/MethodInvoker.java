@@ -8,5 +8,5 @@ import android.os.Bundle;
  */
 
 public interface MethodInvoker {
-    void invoke(Context context, Bundle bundle);
+    void invoke(Context context, Bundle bundle, int requestCode);
 }
