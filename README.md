@@ -230,6 +230,10 @@ public static void logout(Context context, Bundle bundle) {
 
 ### 支持多模块
 
+* 每个包含 activity 的 module 都要添加 apt 依赖
+* 每个 module(包含主项目) 都要添加一个 @Module(name) 的注解在任意类上面，name 是项目的名称
+* 主项目要添加一个 @Modules({name0, name1, name2}) 的注解，指定所有的 module 名称集合
+
 ## 混淆配置
 
 ``` groovy
