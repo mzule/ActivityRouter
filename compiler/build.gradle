@@ -28,8 +28,8 @@ ext {
 }
 
 dependencies {
-    compile 'com.squareup:javapoet:1.8.0'
-    compile 'com.google.auto.service:auto-service:1.0-rc3'
+    compile 'com.google.auto.service:auto-service:1.0-rc2'
+    compile 'com.squareup:javapoet:1.6.1'
     compile 'com.github.mzule.activityrouter:annotation:1.1.5'
 }
 
