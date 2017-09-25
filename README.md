@@ -11,6 +11,21 @@
 ![image](https://raw.githubusercontent.com/mzule/ActivityRouter/master/gif/http.gif)
 
 ## 集成
+
+### 1. 添加引用
+
+请根据项目的历史情况选择合适的集成方式
+
+#### 1.1 annotaitonProcessor 方式
+
+``` groovy
+dependencies {
+    compile 'com.github.mzule.activityrouter:activityrouter:1.2.2'
+    annotationProcessor 'com.github.mzule.activityrouter:compiler:1.1.7'
+}
+```
+
+#### 1.2 apt 方式
 根目录 build.gradle
 
 ``` groovy
@@ -26,11 +41,12 @@ buildscript {
 apply plugin: 'android-apt'
 
 dependencies {
-	compile 'com.github.mzule.activityrouter:activityrouter:1.2.2'
-	apt 'com.github.mzule.activityrouter:compiler:1.1.7'
+    compile 'com.github.mzule.activityrouter:activityrouter:1.2.2'
+    apt 'com.github.mzule.activityrouter:compiler:1.1.7'
 }
 
 ```
+### 2. 集成
 
 在`AndroidManifest.xml`配置
 
@@ -213,6 +229,10 @@ public static void logout(Context context, Bundle bundle) {
 在任意参数为 Context 和 Bundle 的静态公共方法上, 通过 @Router 标记即可定义方法的 url. @Router 使用方式与上述一致。
 
 ### 支持多模块
+
+* 每个包含 activity 的 module 都要添加 apt 依赖
+* 每个 module(包含主项目) 都要添加一个 @Module(name) 的注解在任意类上面，name 是项目的名称
+* 主项目要添加一个 @Modules({name0, name1, name2}) 的注解，指定所有的 module 名称集合
 
 ## 混淆配置
 
