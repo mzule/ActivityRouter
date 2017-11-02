@@ -1,10 +1,10 @@
 package com.github.mzule.activityrouter.router;
 
-import java.util.Set;
-
 import android.app.Activity;
 import android.net.Uri;
 import android.os.Bundle;
+
+import java.util.Set;
 
 /**
  * Created by CaoDongping on 4/6/16.
@@ -83,7 +83,13 @@ public class Mapping {
         Bundle bundle = new Bundle();
         // path segments // ignore scheme
         Path p = formatPath.next();
+
         Path y = Path.create(uri).next();
+        // parseExtras means jump uri and target uri is matched, jump uri may longer than target
+        // we should match from last
+        for (int i = 0; i < y.length() - p.length(); i++) {
+            y = y.next();
+        }
         while (p != null) {
             if (p.isArgument()) {
                 put(bundle, p.argument(), y.value());
