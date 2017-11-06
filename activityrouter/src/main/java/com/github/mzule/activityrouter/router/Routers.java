@@ -1,14 +1,15 @@
 package com.github.mzule.activityrouter.router;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
-
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Bundle;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 
 /**
  * Created by CaoDongping on 4/6/16.
@@ -43,38 +44,70 @@ public class Routers {
     }
 
     public static boolean open(Context context, String url) {
-        return open(context, Uri.parse(url));
+        return open(context, Uri.parse(url), null, getGlobalCallback(context));
+    }
+
+    public static boolean open(Context context, String url, Bundle bundle) {
+        return open(context, Uri.parse(url), bundle, getGlobalCallback(context));
     }
 
     public static boolean open(Context context, String url, RouterCallback callback) {
-        return open(context, Uri.parse(url), callback);
+        return open(context, Uri.parse(url), null, callback);
+    }
+
+    public static boolean open(Context context, String url, Bundle bundle, RouterCallback callback) {
+        return open(context, Uri.parse(url), bundle, callback);
     }
 
     public static boolean open(Context context, Uri uri) {
-        return open(context, uri, getGlobalCallback(context));
+        return open(context, uri, null, getGlobalCallback(context));
+    }
+
+    public static boolean open(Context context, Uri uri, Bundle bundle) {
+        return open(context, uri, bundle, getGlobalCallback(context));
     }
 
     public static boolean open(Context context, Uri uri, RouterCallback callback) {
-        return open(context, uri, -1, callback);
+        return open(context, uri, null, callback);
     }
 
-    public static boolean openForResult(Activity activity, String url, int requestCode) {
-        return openForResult(activity, Uri.parse(url), requestCode);
+    public static boolean open(Context context, Uri uri, Bundle bundle, RouterCallback callback) {
+        return open(context, uri, bundle, -1, callback);
     }
 
-    public static boolean openForResult(Activity activity, String url, int requestCode, RouterCallback callback) {
-        return openForResult(activity, Uri.parse(url), requestCode, callback);
+    public static boolean openForResult(Context context, String url, int requestCode) {
+        return openForResult(context, Uri.parse(url), null, requestCode, getGlobalCallback(context));
     }
 
-    public static boolean openForResult(Activity activity, Uri uri, int requestCode) {
-        return openForResult(activity, uri, requestCode, getGlobalCallback(activity));
+    public static boolean openForResult(Context context, String url, Bundle bundle, int requestCode) {
+        return openForResult(context, Uri.parse(url), bundle, requestCode, getGlobalCallback(context));
     }
 
-    public static boolean openForResult(Activity activity, Uri uri, int requestCode, RouterCallback callback) {
-        return open(activity, uri, requestCode, callback);
+    public static boolean openForResult(Context context, String url, int requestCode, RouterCallback callback) {
+        return openForResult(context, Uri.parse(url), null, requestCode, callback);
     }
 
-    private static boolean open(Context context, Uri uri, int requestCode, RouterCallback callback) {
+    public static boolean openForResult(Context context, String url, Bundle bundle, int requestCode, RouterCallback callback) {
+        return openForResult(context, Uri.parse(url), bundle, requestCode, callback);
+    }
+
+    public static boolean openForResult(Context context, Uri uri, int requestCode) {
+        return openForResult(context, uri, null, requestCode, getGlobalCallback(context));
+    }
+
+    public static boolean openForResult(Context context, Uri uri, Bundle bundle, int requestCode) {
+        return openForResult(context, uri, bundle, requestCode, getGlobalCallback(context));
+    }
+
+    public static boolean openForResult(Context context, Uri uri, int requestCode, RouterCallback callback) {
+        return openForResult(context, uri, null, requestCode, callback);
+    }
+
+    public static boolean openForResult(Context context, Uri uri, Bundle bundle, int requestCode, RouterCallback callback) {
+        return open(context, uri, bundle, requestCode, callback);
+    }
+
+    private static boolean open(Context context, Uri uri, Bundle bundle, int requestCode, RouterCallback callback) {
         boolean success = false;
         if (callback != null) {
             if (callback.beforeOpen(context, uri)) {
@@ -83,7 +116,7 @@ public class Routers {
         }
 
         try {
-            success = doOpen(context, uri, requestCode);
+            success = doOpen(context, uri, bundle, requestCode);
         } catch (Throwable e) {
             e.printStackTrace();
             if (callback != null) {
@@ -119,7 +152,7 @@ public class Routers {
         return null;
     }
 
-    private static boolean doOpen(Context context, Uri uri, int requestCode) {
+    private static boolean doOpen(Context context, Uri uri, Bundle bundle, int requestCode) {
         initIfNeed();
         Path path = Path.create(uri);
         for (Mapping mapping : mappings) {
@@ -131,6 +164,9 @@ public class Routers {
                 Intent intent = new Intent(context, mapping.getActivity());
                 intent.putExtras(mapping.parseExtras(uri));
                 intent.putExtra(KEY_RAW_URL, uri.toString());
+                if (bundle != null) {
+                    intent.putExtras(bundle);
+                }
                 if (!(context instanceof Activity)) {
                     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 }
