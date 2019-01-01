@@ -4,9 +4,12 @@ import android.app.Activity;
 import android.net.Uri;
 import android.os.Bundle;
 
+import hugo.weaving.DebugLog;
+
 /**
  * Created by CaoDongping on 4/6/16.
  */
+@DebugLog
 public class RouterActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {

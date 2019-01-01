@@ -1,7 +1,5 @@
 package com.github.mzule.activityrouter;
 
-import com.github.mzule.activityrouter.router.Routers;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,9 +9,14 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.github.mzule.activityrouter.router.Routers;
+
+import hugo.weaving.DebugLog;
+
 /**
  * Created by CaoDongping on 4/7/16.
  */
+@DebugLog
 public class LaunchActivity extends Activity {
 
     @Override

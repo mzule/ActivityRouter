@@ -1,4 +1,5 @@
 apply plugin: 'com.android.application'
+apply plugin: 'com.jakewharton.hugo'
 
 sourceCompatibility = 1.8
 targetCompatibility = 1.8

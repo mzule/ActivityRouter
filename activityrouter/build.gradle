@@ -1,4 +1,5 @@
 apply plugin: 'com.android.library'
+apply plugin: 'com.jakewharton.hugo'
 
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
@@ -41,6 +42,10 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+
+        debug {
+            defaultPublishConfig "debug"
         }
     }
 }
