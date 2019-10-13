@@ -11,12 +11,9 @@ import android.widget.Toast;
 
 import com.github.mzule.activityrouter.router.Routers;
 
-import hugo.weaving.DebugLog;
-
 /**
  * Created by CaoDongping on 4/7/16.
  */
-@DebugLog
 public class LaunchActivity extends Activity {
 
     @Override

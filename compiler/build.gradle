@@ -3,36 +3,8 @@ apply plugin: 'java-library'
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
-ext {
-    bintrayRepo = 'maven'
-    bintrayName = 'activity-router-compiler'
-
-    publishedGroupId = 'com.github.mzule.activityrouter'
-    libraryName = 'Compiler'
-    artifact = 'compiler'
-
-    libraryDescription = 'Router activities'
-
-    siteUrl = 'https://github.com/mzule/ActivityRouter/'
-    gitUrl = 'https://github.com/mzule/ActivityRouter.git'
-
-    libraryVersion = '1.1.7'
-
-    developerId = 'mzule'
-    developerName = 'Cao Dongping'
-    developerEmail = 'mzule4j@gmail.com'
-
-    licenseName = 'The Apache Software License, Version 2.0'
-    licenseUrl = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
-    allLicenses = ["Apache-2.0"]
-}
-
 dependencies {
     api 'com.squareup:javapoet:1.11.1'
     api 'com.google.auto.service:auto-service:1.0-rc6'
     api 'com.github.mzule.activityrouter:annotation:1.1.5'
 }
-
-apply from: 'https://raw.githubusercontent.com/nuuneoi/JCenter/master/installv1.gradle'
-apply from: 'https://raw.githubusercontent.com/nuuneoi/JCenter/master/bintrayv1.gradle'
-
