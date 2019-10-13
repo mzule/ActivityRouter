@@ -1,4 +1,4 @@
-apply plugin: 'java'
+apply plugin: 'java-library'
 
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
@@ -28,9 +28,9 @@ ext {
 }
 
 dependencies {
-    compile 'com.squareup:javapoet:1.11.1'
-    compile 'com.google.auto.service:auto-service:1.0-rc4'
-    compile 'com.github.mzule.activityrouter:annotation:1.1.5'
+    api 'com.squareup:javapoet:1.11.1'
+    api 'com.google.auto.service:auto-service:1.0-rc4'
+    api 'com.github.mzule.activityrouter:annotation:1.1.5'
 }
 
 apply from: 'https://raw.githubusercontent.com/nuuneoi/JCenter/master/installv1.gradle'

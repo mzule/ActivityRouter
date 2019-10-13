@@ -29,12 +29,12 @@ ext {
 }
 
 android {
-    compileSdkVersion 28
-    buildToolsVersion "28.0.3"
+    compileSdkVersion 29
+    buildToolsVersion "29.0.2"
 
     defaultConfig {
         minSdkVersion 21
-        targetSdkVersion 28
+        targetSdkVersion 29
         versionCode 1
         versionName "1.0"
     }
@@ -51,8 +51,8 @@ android {
 }
 
 dependencies {
-    provided project(':stub')
-    compile 'com.github.mzule.activityrouter:annotation:1.1.5'
+    compileOnly project(':stub')
+    api 'com.github.mzule.activityrouter:annotation:1.1.5'
 }
 
 apply from: 'https://raw.githubusercontent.com/nuuneoi/JCenter/master/installv1.gradle'

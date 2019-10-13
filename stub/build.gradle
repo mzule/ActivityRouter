@@ -1,5 +1,1 @@
-apply plugin: 'java'
-
-dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-}
+apply plugin: 'java-library'
