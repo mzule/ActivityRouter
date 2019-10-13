@@ -29,7 +29,7 @@ ext {
 
 dependencies {
     api 'com.squareup:javapoet:1.11.1'
-    api 'com.google.auto.service:auto-service:1.0-rc4'
+    api 'com.google.auto.service:auto-service:1.0-rc6'
     api 'com.github.mzule.activityrouter:annotation:1.1.5'
 }
 

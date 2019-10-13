@@ -28,7 +28,6 @@ android {
 }
 
 dependencies {
-    api fileTree(include: ['*.jar'], dir: 'libs')
     api 'androidx.appcompat:appcompat:1.1.0'
     api project(':app_module')
     annotationProcessor project(':compiler')

@@ -9,9 +9,6 @@ android {
         targetSdkVersion 29
         versionCode 1
         versionName "1.0"
-
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-
     }
     buildTypes {
         release {
@@ -22,14 +19,8 @@ android {
 }
 
 dependencies {
-    api fileTree(dir: 'libs', include: ['*.jar'])
-    androidTestCompile('androidx.test.espresso:espresso-core:3.1.0', {
-        exclude group: 'com.android.support', module: 'support-annotations'
-    })
-    api 'androidx.appcompat:appcompat:1.1.0'
     api project(':activityrouter')
     annotationProcessor project(':compiler')
-
     testImplementation 'junit:junit:4.12'
 
 }
