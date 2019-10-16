@@ -1,6 +1,7 @@
 package com.github.mzule.activityrouter;
 
 import com.github.mzule.activityrouter.annotation.Modules;
+import com.github.mzule.activityrouter.module.SdkModule;
 import com.github.mzule.activityrouter.router.RouterCallback;
 import com.github.mzule.activityrouter.router.RouterCallbackProvider;
 import com.github.mzule.activityrouter.router.SimpleRouterCallback;
@@ -13,7 +14,7 @@ import android.net.Uri;
 /**
  * Created by CaoDongping on 4/6/16.
  */
-@Modules({"app", "sdk"})
+@Modules({AppModule.APP_MODULE, SdkModule.SDK_MODULE})
 public class App extends Application implements RouterCallbackProvider {
     @Override
     public RouterCallback provideRouterCallback() {
